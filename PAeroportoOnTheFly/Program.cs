@@ -20,7 +20,6 @@ namespace PAeroportoOnTheFly
         static List<string> listBloqueados = new List<string>();
         static List<string> listDestino = new List<string>();
 
-        #region Conversoes Datas
         static public DateTime DateConverter(string data)
         {
             char[] datasembarra = data.ToCharArray();
@@ -38,9 +37,6 @@ namespace PAeroportoOnTheFly
             }
             return DateTime.Parse(datacombarras);
         }
-        #endregion
-
-        #region Pausas
         static bool PausaMensagem()
         {
             bool repetirdo;
@@ -75,9 +71,6 @@ namespace PAeroportoOnTheFly
             Console.ReadKey();
             Console.Clear();
         }
-        #endregion
-
-        #region GravarCarregar
         static void GravarPassageiro()
         {
             StreamWriter gravPassageiro = new StreamWriter(@"C:\DBOnTheFly\Passageiro.dat");
@@ -116,7 +109,7 @@ namespace PAeroportoOnTheFly
         }
         static void GravarPassagem()
         {
-            StreamWriter gravPassagem = new StreamWriter(@"C:\DBOnTheFly\Passagem.dat");
+            StreamWriter gravPassagem = new StreamWriter(@"C:\DBOnTheFly\PassagemVoo.dat");
             foreach (var passagem in listPassagem)
             {
                 gravPassagem.WriteLine(passagem.ObterDados());
@@ -159,7 +152,6 @@ namespace PAeroportoOnTheFly
             }
             gravBloqueados.Close();
         }
-
         static void CarregarArquivos()
         {
             //Prop.Passageiro
@@ -256,6 +248,8 @@ namespace PAeroportoOnTheFly
                     data = null;
                     Situacao = ' ';
                     caracteres = linha.ToCharArray();
+                    RazaoSocial = null;
+                    Cnpj = null;
                     for (int i = 0; i <= 13; i++)
                     {
                         Cnpj = Cnpj + caracteres[i].ToString();
@@ -297,6 +291,7 @@ namespace PAeroportoOnTheFly
                     data = null;
                     Situacao = ' ';
                     caracteres = linha.ToCharArray();
+                    Inscricao = null;
                     for (int i = 0; i <= 5; i++)
                     {
                         Inscricao = Inscricao + caracteres[i].ToString();
@@ -337,6 +332,10 @@ namespace PAeroportoOnTheFly
                 {
                     data = null;
                     Situacao = ' ';
+                    IDVoo = null;
+                    Destino = null;
+                    Aeronave = null;
+
 
                     caracteres = linha.ToCharArray();
                     for (int i = 0; i <= 4; i++)
@@ -377,12 +376,14 @@ namespace PAeroportoOnTheFly
                 linhas = System.IO.File.ReadAllLines(@"C:\DBOnTheFly\PassagemVoo.dat");
                 foreach (var linha in linhas)
                 {
+                    IDPassagem = null;
+                    IDVoo = null;
                     data = null;
                     Situacao = ' ';
                     Valor = 0;
                     valor = null;
                     caracteres = linha.ToCharArray();
-                    for (int i = 0; i < 5; i++)
+                    for (int i = 0; i <= 5; i++)
                     {
                         IDPassagem = IDPassagem + caracteres[i].ToString();
                     }
@@ -395,12 +396,12 @@ namespace PAeroportoOnTheFly
                         data = data + caracteres[i].ToString();
                     }
                     DataUltimaOperacao = DateHourConverter(data);
-                    for (int i = 22; i <= 28; i++)
+                    for (int i = 23; i <= 30; i++)
                     {
                         valor = valor + caracteres[i].ToString();
                     }
                     Valor = float.Parse(valor);
-                    Situacao = caracteres[29];
+                    Situacao = caracteres[31];
                     PassagemVoo PV = new PassagemVoo(IDPassagem, IDVoo, DataUltimaOperacao, Valor, Situacao);
                     listPassagem.Add(PV);
                 }
@@ -520,23 +521,159 @@ namespace PAeroportoOnTheFly
                 Console.WriteLine("Mensagem de Erro: Não foi possível carregar dados do arquivo Destino.dat");
             }
         }
-
-
-        #endregion GravarCarregar
-        static public List<string> GeradorIdPassagens(int capacidadeassentos)
+        static List<string> GeradorIdPassagens(int capacidadeassentos)
         {
-            Random random = new Random();
-            List<string> listaId = new List<string>();
-            for (int i = 0; i < capacidadeassentos; i++)
+            try
             {
-                int id = random.Next(1000, 9999);
-                listaId.Add("PA" + id.ToString());
-            }
-            return listaId;
-        }
+                Random random = new Random();
+                List<string> listaId = new List<string>();
+                string id;
+                bool encontrado;
 
-        #region Validacao
-        static public string ValidarEntrada(string entrada)
+                for (int i = 0; i < capacidadeassentos; i++)
+                {
+                    encontrado = false;
+
+                    id = random.Next(1001, 9999).ToString();
+
+                    foreach (var idnalista in listaId)
+                    {
+                        if (idnalista == id)
+                        {
+                            encontrado = true;
+                            i--;
+                            break;
+                        }
+                    }
+                    if(encontrado == false)
+                    listaId.Add("PA" + id.ToString());
+                }
+                return listaId;
+            }
+            catch(Exception)
+            {
+                Console.WriteLine("Erro, não foi possível gerar ID's das passagens!");
+                Pausa();
+                return null;
+            }
+        }
+        static public string GeradorId(String id)
+        {
+            switch (id)
+            {
+                case "idvoo":
+
+                    #region IDVoo
+
+                    Random random = new Random();
+                    bool encontrado = false;
+                    string idvoogerado;
+                    do
+                    {
+                        try
+                        {
+                            encontrado = false;
+                            idvoogerado = ("V" + random.Next(1000, 9999).ToString());
+
+                            foreach (var voo in listVoo)
+                            {
+                                if (voo.IDVoo == idvoogerado)
+                                {
+                                    encontrado = true;
+                                    break;
+                                }
+                            }
+
+                            if(listVoo.Count <= 8999)
+                            {
+                                if (encontrado == false)
+                                    return idvoogerado;
+                            }
+                            else
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Erro, não foi possível gerar ID do Voo! Lista de vendas está cheia");
+                                Pausa();
+                                return null;
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Erro, não foi possível gerar ID do Voo!");
+                            Pausa();
+                            return null;
+                        }
+                    } while (encontrado == true);
+                    return null;
+                    #endregion
+                   
+                case "idvenda":
+
+
+                    #region IDVenda
+
+                        try
+                        {
+                            string idvenda = (listVenda.Count + 1).ToString();
+                            if(idvenda.Length == 1) return ("0000" + idvenda);
+                            else if (idvenda.Length == 2 ) return ("000" + idvenda);
+                            else if (idvenda.Length == 3) return ("00" + idvenda);
+                            else if (idvenda.Length == 4) return ("0" + idvenda);
+                            else if (idvenda.Length == 5) return idvenda;
+                            else
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Erro, não foi possível gerar ID da venda! Lista de vendas está cheia");
+                                Pausa();
+                                return null;
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Erro, não foi possível gerar ID da venda!");
+                            Pausa();
+                            return null;
+                        }
+
+                    #endregion
+                    
+
+                case "iditemvenda":
+
+                    #region IDItemVenda
+                    try
+                    {
+                        string idvenda = (listVenda.Count + 1).ToString();
+                        if (idvenda.Length == 1) return ("0000" + idvenda);
+                        else if (idvenda.Length == 2) return ("000" + idvenda);
+                        else if (idvenda.Length == 3) return ("00" + idvenda);
+                        else if (idvenda.Length == 4) return ("0" + idvenda);
+                        else if (idvenda.Length == 5) return idvenda;
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Erro, não foi possível gerar ID do Item Venda! Lista está cheia");
+                            Pausa();
+                            return null;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Erro, não foi possível gerar ID do Item Venda!");
+                        Pausa();
+                        return null;
+                    }
+
+                #endregion
+
+                default:  
+                    return null;
+            }
+        }
+        static string ValidarEntrada(string entrada)
         {
             string[] vetorletras = new string[] {"Ç","ç","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S",
             "T","U","V","W","X","Y","Z","Á","É","Í","Ó","Ú","À","È","Ì","Ò","Ù","Â","Ê","Î","Ô","Û","Ã","Õ"," "};
@@ -1797,7 +1934,7 @@ namespace PAeroportoOnTheFly
                     {
                         try
                         {
-                            Console.WriteLine("insira o valor da passagem: ");
+                            Console.Write("insira o valor da passagem: ");
                             float valor = float.Parse(Console.ReadLine());
                             if (valor > 0 && valor < 10000)
                             {
@@ -1975,7 +2112,7 @@ namespace PAeroportoOnTheFly
                         Console.Write("Informe o ID do Voo para prosseguir: ");
                         try
                         {
-                            string idvoo = Console.ReadLine();
+                            string idvoo = Console.ReadLine().ToUpper();
 
                             //Consulta o id do voo escolhido da lista de voos:
                             encontrado = false;
@@ -2070,12 +2207,63 @@ namespace PAeroportoOnTheFly
                     return null;
                 #endregion
 
+
+                case "idvenda":
+
+                    #region idvenda
+
+                    do
+                    {
+                        encontrado = false;
+                        retornar = false;
+
+                        Console.Write("Informe o ID da venda: ");
+                        try
+                        {
+                            string idvenda = Console.ReadLine().ToUpper();
+
+                            foreach (var venda in listVenda)
+                            {
+                                if (venda.IDVenda == idvenda)
+                                {
+                                    encontrado = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    encontrado = false;
+                                }
+                            }
+
+                            if (encontrado == true)
+                            {
+                                return idvenda;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Código não encontrado! Insira um ID Venda válido!");
+                                retornar = PausaMensagem();
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine("Insira um código ID Venda válido!");
+                            retornar = PausaMensagem();
+                        }
+                    } while (retornar == false);
+
+                    //Retorna nulo se o usuário quiser cancelar no meio do cadastro;
+                    return null;
+
+                #endregion
+
+
+
                 default:
                     return null;
             }
         }
-        #endregion
-        static public string ValorConverter(float valor)
+        static string ValorConverter(float valor)
         {
             try
             {
@@ -2126,7 +2314,6 @@ namespace PAeroportoOnTheFly
                 return null;
             }
         }
-        #region TELAS Principais
         static void TelaInicial()
         {
             int opc = 0;
@@ -2135,9 +2322,9 @@ namespace PAeroportoOnTheFly
                 Console.Clear();
                 Console.WriteLine("Bem vindo à On The Fly!");
                 Console.WriteLine("\nPor Favor, informe a Opção Desejada:\n");
-                Console.WriteLine(" 1 - Acesso aos Cadastros de Companhias Aéreas\n");
-                Console.WriteLine(" 2 - Acesso aos Cadastros de Passageiros\n");
-                Console.WriteLine(" 3 - Acesso às Vendas de Passagens\n");
+                Console.WriteLine(" 1 - Companhias Aéreas\n");
+                Console.WriteLine(" 2 - Passageiros\n");
+                Console.WriteLine(" 3 - Compras de Passagens\n");
                 Console.WriteLine(" 4 - Acesso a Lista de CPF Restritos\n");
                 Console.WriteLine(" 5 - Acesso a Lista de CNPJ Restritos");
                 Console.WriteLine("\n 0 - Encerrar Sessão\n");
@@ -2147,7 +2334,7 @@ namespace PAeroportoOnTheFly
                 switch (opc)
                 {
                     case 0:
-                        Console.WriteLine("Encerrando...");
+                        Console.WriteLine("Encerrado");
                         GravarPassageiro();
                         GravarCompanhiaAerea();
                         GravarAeronaves();
@@ -2158,7 +2345,6 @@ namespace PAeroportoOnTheFly
                         GravarBloqueados();
                         GravarRestritos();
                         Environment.Exit(0);
-
                         break;
 
                     case 1:
@@ -2203,9 +2389,6 @@ namespace PAeroportoOnTheFly
             } while (opc != 0);
 
         }
-
-        #region TELAS_PASSAGEIROS
-        #region TELAS_PASSAGEIROS
         static void TelaInicialPassageiros()
         {
             int opc = 0;
@@ -2236,7 +2419,6 @@ namespace PAeroportoOnTheFly
 
             } while (opc != 0);
         }
-
         static void TelaLoginPassageiro()
         {
             string cpf;
@@ -2283,7 +2465,6 @@ namespace PAeroportoOnTheFly
 
             } while (true);
         }
-
         static void TelaEditarPassageiro(Passageiro passageiroAtivo)
         {
             int opc;
@@ -2391,12 +2572,6 @@ namespace PAeroportoOnTheFly
 
             } while (true);
         }
-
-        #endregion
-
-        #endregion
-
-        #region TELAS_ARQUIVOS_BLOQUEADOS
         static void TelaInicialCpfRestritos()
         {
             int opc = 0;
@@ -2594,11 +2769,6 @@ namespace PAeroportoOnTheFly
 
             } while (true);
         }
-        #endregion
-
-        #region TELAS_COMPANHIAS_AEREAS
-
-
         static void TelaInicialCompanhiasAereas()
         {
             int opc = 0;
@@ -2776,7 +2946,10 @@ namespace PAeroportoOnTheFly
 
             valor = float.Parse(ValidarEntrada("valorpassagem"));
             if (valor.Equals(null)) TelaOpcoesCompanhiaAerea(compAtivo);
-            idVoo = /*GeradorId("idvoo")*/"12356";
+
+            idVoo = GeradorId("idvoo");
+            if (idVoo == null) TelaOpcoesCompanhiaAerea(compAtivo);
+
             Voo novoVoo = new Voo(idVoo, destino, idAeronave, dataVoo, System.DateTime.Now, 'A');
             listVoo.Add(novoVoo);
             GravarVoo();
@@ -2789,7 +2962,7 @@ namespace PAeroportoOnTheFly
                     break;
                 }
             }
-            //Gerador de passagem
+            //Gerador de passagens
             List<string> idsPassagem = GeradorIdPassagens(a.Capacidade);
             for (int i = 0; i < a.Capacidade; i++)
             {
@@ -2818,7 +2991,7 @@ namespace PAeroportoOnTheFly
                      TelaEditarAeronave(compativo, aeronave);
              }*/
         }
-        static void TelaEditarAeronave(/*CompanhiaAerea compAtivo, Aeronave aeroNave*/)
+        static void TelaEditarAeronave(CompanhiaAerea compAtivo, Aeronave aeroNave)
         {
 
         }
@@ -2827,16 +3000,12 @@ namespace PAeroportoOnTheFly
 
 
         }
-        #endregion
-        #endregion
-
-        #region TelasVenda
         static void TelaVendas(Passageiro passageiroAtivo)
         {
 
             int opc;
             Console.WriteLine("Informe a opção desejada: \n");
-            Console.WriteLine("1 - Vender Passagem\n");
+            Console.WriteLine("1 - Compra de Passagem\n");
             Console.WriteLine("2 - Ver Passagens Vendidas\n");
             Console.WriteLine("3 - Ver Passagens Reservadas\n");
             Console.WriteLine("\n0 -  SAIR\n");
@@ -2948,7 +3117,7 @@ namespace PAeroportoOnTheFly
                                         passagem.Situacao = 'P';
                                         passagem.DataUltimaOperacao = System.DateTime.Now;
                                         GravarPassagem();
-                                        ItemVenda item = new ItemVenda(/*GeradorId("iditemvenda")*/"V3567", passagem.IDPassagem, passagem.Valor);
+                                        ItemVenda item = new ItemVenda(GeradorId("iditemvenda"), passagem.IDPassagem, passagem.Valor);
                                         listItemVenda.Add(item);
                                         GravarItemVenda();
                                         cont++;
@@ -2957,9 +3126,11 @@ namespace PAeroportoOnTheFly
                                     if (cont == quantPassagem)
                                     {
                                         retornar = true;
-                                        Venda venda = new Venda(/*GeradorId("idvenda")*/"PA1234", System.DateTime.Now, passageiroAtivo.Cpf, (p.Valor * quantPassagem));
+                                        Venda venda = new Venda(GeradorId("idvenda"), System.DateTime.Now, passageiroAtivo.Cpf, (p.Valor * quantPassagem));
                                         listVenda.Add(venda);
                                         GravarVenda();
+                                        passageiroAtivo.DataUltimaCompra = System.DateTime.Now;
+                                        GravarPassageiro();
 
                                         string idAeronave = null;
                                         foreach (var voo in listVoo)
@@ -2975,9 +3146,10 @@ namespace PAeroportoOnTheFly
                                             if (aeronave.Inscricao == idAeronave)
                                             {
                                                 aeronave.AssentosOcupados = aeronave.AssentosOcupados + quantPassagem;
+                                                aeronave.UltimaVenda = System.DateTime.Now;
                                             }
                                         }
-
+                                        GravarAeronaves();
 
                                         Console.WriteLine("Compra realizada com sucesso!");
                                         Pausa();
@@ -3029,16 +3201,13 @@ namespace PAeroportoOnTheFly
                                         passagem.Situacao = 'R';
                                         passagem.DataUltimaOperacao = System.DateTime.Now;
                                         GravarPassagem();
-                                        ItemVenda item = new ItemVenda(/*GeradorId("iditemvenda")*/"3654", p.IDPassagem, p.Valor);
-                                        listItemVenda.Add(item);
-                                        GravarItemVenda();
-                                        Console.WriteLine("Reserva realizada com sucesso!");
-
                                         cont++;
                                     }
                                     if (cont == quantPassagem) break;
                                 }
+                                Console.Clear();
                                 Console.WriteLine("Reserva realizada com sucesso!");
+                                Pausa();
                                 TelaVendas(passageiroAtivo);
                             }
                             else
@@ -3062,7 +3231,7 @@ namespace PAeroportoOnTheFly
             int opc;
             foreach (var venda in listVenda)
             {
-                Console.WriteLine("ID Venda: " + venda.IDVenda + "Valor: " + venda.ValorTotal + "Data da Venda: " + venda.DataVenda);
+                Console.WriteLine("ID Venda: " + venda.IDVenda + " Valor: " + venda.ValorTotal + " Data da Venda: " + venda.DataVenda);
             }
             Console.WriteLine("\n----------------------------------------------------------------------------------------------");
             Console.WriteLine("\n1 - Detalhes da Venda: ");
@@ -3082,14 +3251,14 @@ namespace PAeroportoOnTheFly
         }
         static void TelaDescricaoItemVenda(Passageiro passageiroAtivo)
         {
-
+            
             string idvenda = ValidarEntrada("idvenda");
             if (idvenda == null) TelaVendas(passageiroAtivo);
             foreach (var itemVenda in listItemVenda)
             {
                 if (itemVenda.IDItemVenda == idvenda)
                 {
-                    itemVenda.ToString();
+                    Console.WriteLine(itemVenda.ToString());
                     Pausa();
                     TelaVendas(passageiroAtivo);
                     break;
@@ -3099,7 +3268,6 @@ namespace PAeroportoOnTheFly
         }
         static void TelaHistoricoReservadas(Passageiro passageiroAtivo)
         {
-            int opc;
             foreach (var passagem in listPassagem)
             {
                 if (passagem.Situacao == 'R')
@@ -3117,14 +3285,16 @@ namespace PAeroportoOnTheFly
         {
         }
 
-        #endregion
-
         static void Main(string[] args)
         {
             System.IO.Directory.CreateDirectory(@"C:\DBOnTheFly");
             CarregarArquivos();
+
+            Console.WriteLine("Carregado banco de dados");
             Pausa();
+
             TelaInicial();
+
         }
     }
 }
