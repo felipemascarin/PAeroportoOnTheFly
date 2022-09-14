@@ -31,5 +31,10 @@ namespace PAeroportoOnTheFly
         {
             return this.IDVoo + Destino + IDAeronave + DataVoo.ToString("ddMMyyyyHHmm") + DataCadastro.ToString("ddMMyyyyHHmm") + Situacao;
         }
+
+        public string DadosVooRealizado()
+        {
+            return "ID Voo:" + IDVoo + "   Destino:" + Destino + "   ID Aeronave:" + IDAeronave + "   Data e hora que o Voo foi inciado:" + DataVoo.ToString("dd/MM/yyyy HH:mm");
+        }
     }
 }
