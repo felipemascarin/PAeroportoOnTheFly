@@ -191,11 +191,13 @@ parâmetros:
 
 ("menu") - retorna um STRING alfanumerio (qualquer numero digitado - Tratamento é feito no switch case do menu)
 
-("cpf") - valida, procura se já existe. Se NÃO existir retorna 11 alfanumericos (para cadastro)
+("cpf") - valida, procura se já existe cadastro. Se NÃO existir retorna 11 alfanumericos (para cadastro)
 
-("cnpj") - valida, procura se já existe e se NÃO EXISTIR retorna 14 alfanumericos
+("cnpj") - valida, procura se já existe cadastro e se NÃO EXISTIR retorna 14 alfanumericos
 
-("cnpjexiste") - Procura se já existe, verifica se está ativo e se EXISTIR retorna 14 alfanumericos
+("cnpjexiste") - Procura se já existe cadastro, verifica se está ativo e se EXISTIR retorna 14 alfanumericos
+
+("cnpjeditar") - Procura se já existe cadastro, e se EXISTIR retorna 14 alfanumericos
 
 ("nome") - valida e retorna um nome/razaosocial obrigatoriamente com 50 caracteres (se preciso, preenchido com espaço)
 
@@ -221,7 +223,7 @@ parâmetros:
 
 ("idvenda") - verifica na lista de vendas se existe e retorna o valor
 
-("cpflogin") - verifica se consta na lista de cadastro, verifica se está ativo, verifica se é maior de 18, verificar se tem na lista restritos, retornar cpf (Para TelaOpcoesPassageiro).
+("cpflogin") - verifica se já existe cadastro, verifica se está ativo, verifica se é maior de 18, verificar se tem na lista restritos, retornar cpf (Para TelaOpcoesPassageiro).
 
 ("cpfexiste") - Se existir cpf na lista de passageiros, retorna o cpf, senão existir retorna null. (Para TelaLoginPassageiro).
 
