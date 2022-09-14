@@ -154,52 +154,27 @@ namespace PAeroportoOnTheFly
         }
         static void CarregarArquivos()
         {
-            //Prop.Passageiro
-            string cpf = null;
-            string nome = null;
-            char Sexo;
-            DateTime DataNascimento;
-            DateTime DataUltimaCompra;
-            //Prop.CompanhiaAerea
-            string Cnpj = null;
-            string RazaoSocial = null;
-            DateTime DataAbertura;
-            DateTime UltimoVoo;
-            //Prop.Aeronaves
-            string Inscricao = null;
-            int Capacidade = 0;
-            int Assentos = 0;
-            DateTime UltimaVenda;
-            //Prop.Voo
-            string IDVoo = null;
-            string Destino = null;
-            string Aeronave = null;
-            DateTime DataVoo;
-            //Prop.PassagemVoo
-            string IDPassagem = null;
-            DateTime DataUltimaOperacao;
-            //Prop.Venda
-            string IDVenda = null;
-            DateTime DataVenda;
-            string CpfPassageiro = null;
-            //Prop.ItemVenda
-            string IDItemVenda = null;
-            DateTime DataCadastro;
-            string data = null;
-            char Situacao;
-            float Valor;
-            string valor = null;
             char[] caracteres;
             string[] linhas;
-            //Passageiro
+            float Valor;
+            string valor = null;
+            char Situacao;
+            string data = null;
+            DateTime DataCadastro;
+
             try
             {
+                DateTime DataNascimento;
+                DateTime DataUltimaCompra;
+               
 
+                //cpf nome data  datanascimento sexo data dataultimacompra data datacadastro situacao
                 linhas = System.IO.File.ReadAllLines(@"C:\DBOnTheFly\Passageiro.dat");
                 foreach (var linha in linhas)
                 {
-                    data = null;
-                    Situacao = ' ';
+                    char Sexo;
+                    string cpf = null;
+                    string nome = null;
                     Valor = 0;
                     valor = null;
 
@@ -217,12 +192,14 @@ namespace PAeroportoOnTheFly
                         data = data + caracteres[i].ToString();
                     }
                     DataNascimento = DateConverter(data);
+                    data = null;
                     Sexo = caracteres[70];
                     for (int i = 71; i <= 82; i++)
                     {
                         data = data + caracteres[i].ToString();
                     }
                     DataUltimaCompra = DateHourConverter(data);
+                    data = null;
                     for (int i = 83; i <= 94; i++)
                     {
                         data = data + caracteres[i].ToString();
@@ -237,19 +214,21 @@ namespace PAeroportoOnTheFly
             {
                 Console.WriteLine("Mensagem de Erro: Não foi possível carregar dados do arquivo Passageiro.dat");
             }
-            //Companhia Aerea
+           
             try
             {
-
+                DateTime DataAbertura;
+                DateTime UltimoVoo;
+                
 
                 linhas = System.IO.File.ReadAllLines(@"C:\DBOnTheFly\CompanhiaAerea.dat");
                 foreach (var linha in linhas)
                 {
+                    string Cnpj = null;
+                    string RazaoSocial = null;
                     data = null;
-                    Situacao = ' ';
+
                     caracteres = linha.ToCharArray();
-                    RazaoSocial = null;
-                    Cnpj = null;
                     for (int i = 0; i <= 13; i++)
                     {
                         Cnpj = Cnpj + caracteres[i].ToString();
@@ -263,11 +242,13 @@ namespace PAeroportoOnTheFly
                         data = data + caracteres[i].ToString();
                     }
                     DataAbertura = DateConverter(data);
+                    data = null;
                     for (int i = 73; i <= 84; i++)
                     {
                         data = data + caracteres[i].ToString();
                     }
                     UltimoVoo = DateHourConverter(data);
+                    data = null;
                     for (int i = 85; i <= 96; i++)
                     {
                         data = data + caracteres[i].ToString();
@@ -282,16 +263,22 @@ namespace PAeroportoOnTheFly
             {
                 Console.WriteLine("Mensagem de Erro: Não foi possível carregar dados do arquivo CompanhiaAerea.dat");
             }
-            //Aeronaves
+ 
             try
             {
+                DateTime UltimaVenda;
+                
+
                 linhas = System.IO.File.ReadAllLines(@"C:\DBOnTheFly\Aeronaves.dat");
                 foreach (var linha in linhas)
                 {
+                    string Inscricao = null;
+                    int Capacidade = 0;
+                    int Assentos = 0;
                     data = null;
-                    Situacao = ' ';
+
                     caracteres = linha.ToCharArray();
-                    Inscricao = null;
+                    
                     for (int i = 0; i <= 5; i++)
                     {
                         Inscricao = Inscricao + caracteres[i].ToString();
@@ -309,6 +296,7 @@ namespace PAeroportoOnTheFly
                         data = data + caracteres[i].ToString();
                     }
                     UltimaVenda = DateHourConverter(data);
+                    data = null;
                     for (int i = 24; i <= 35; i++)
                     {
                         data = data + caracteres[i].ToString();
@@ -323,20 +311,19 @@ namespace PAeroportoOnTheFly
             {
                 Console.WriteLine("Mensagem de Erro:  Não foi possível carregar dados do arquivo Aeronaves.dat ");
             }
-            //Voo
+
             try
             {
+                DateTime DataVoo;
+                
 
                 linhas = System.IO.File.ReadAllLines(@"C:\DBOnTheFly\Voo.dat");
                 foreach (var linha in linhas)
                 {
+                    string IDVoo = null;
+                    string Destino = null;
+                    string Aeronave = null;
                     data = null;
-                    Situacao = ' ';
-                    IDVoo = null;
-                    Destino = null;
-                    Aeronave = null;
-
-
                     caracteres = linha.ToCharArray();
                     for (int i = 0; i <= 4; i++)
                     {
@@ -355,6 +342,7 @@ namespace PAeroportoOnTheFly
                         data = data + caracteres[i].ToString();
                     }
                     DataVoo = DateHourConverter(data);
+                    data = null;
                     for (int i = 26; i <= 37; i++)
                     {
                         data = data + caracteres[i].ToString();
@@ -369,19 +357,20 @@ namespace PAeroportoOnTheFly
             {
                 Console.WriteLine("Mensagem de Erro: Não foi possível carregar dados do arquivo Voo.dat");
             }
-            //PassagemVoo
+
             try
             {
+                DateTime DataUltimaOperacao;
+                
 
                 linhas = System.IO.File.ReadAllLines(@"C:\DBOnTheFly\PassagemVoo.dat");
                 foreach (var linha in linhas)
                 {
-                    IDPassagem = null;
-                    IDVoo = null;
+                    string IDPassagem = null;
+                    string IDVoo = null;
                     data = null;
-                    Situacao = ' ';
-                    Valor = 0;
                     valor = null;
+
                     caracteres = linha.ToCharArray();
                     for (int i = 0; i <= 5; i++)
                     {
@@ -410,17 +399,19 @@ namespace PAeroportoOnTheFly
             {
                 Console.WriteLine("Mensagem de Erro: Não foi possível carregar dados do arquivo PassagemVoo.dat ");
             }
-            //Venda
+
             try
             {
-
+                DateTime DataVenda;
+                
                 linhas = System.IO.File.ReadAllLines(@"C:\DBOnTheFly\Venda.dat");
                 foreach (var linha in linhas)
                 {
+                    string IDVenda = null;
+                    string CpfPassageiro = null;
                     data = null;
-                    Situacao = ' ';
-                    Valor = 0;
                     valor = null;
+
                     caracteres = linha.ToCharArray();
                     for (int i = 0; i < 4; i++)
                     {
@@ -448,17 +439,16 @@ namespace PAeroportoOnTheFly
             {
                 Console.WriteLine("Mensagem de Erro: Não foi possível carregar dados do arquivo Venda.dat");
             }
-            //ItemVenda
+
             try
             {
-
                 linhas = System.IO.File.ReadAllLines(@"C:\DBOnTheFly\ItemVenda.dat");
                 foreach (var linha in linhas)
                 {
-                    data = null;
-                    Situacao = ' ';
-                    Valor = 0;
+                    string IDItemVenda = null;
+                    string IDPassagem = null;
                     valor = null;
+
                     caracteres = linha.ToCharArray();
                     for (int i = 0; i < 4; i++)
                     {
@@ -481,6 +471,7 @@ namespace PAeroportoOnTheFly
             {
                 Console.WriteLine("Mensagem de Erro: Não foi possível carregar dados do arquivo ItemVenda.dat");
             }
+
             //Restritos
             try
             {
@@ -494,6 +485,7 @@ namespace PAeroportoOnTheFly
             {
                 Console.WriteLine("Mensagem de Erro: Não foi possível carregar dados do arquivo Restritos.dat");
             }
+
             //Bloqueados
             try
             {
@@ -507,6 +499,7 @@ namespace PAeroportoOnTheFly
             {
                 Console.WriteLine("Mensagem de Erro: Não foi possível carregar dados do arquivo Bloqueados.dat");
             }
+
             //Destino
             try
             {
