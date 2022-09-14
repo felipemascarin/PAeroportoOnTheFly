@@ -217,6 +217,8 @@ parâmetros:
 
 ("aeronave") - le o id da aeronave, verifica se a situação está ativa e verifica se existe no arquivo. Se existir retorna o idaeronave. (Cadastro voo)
 
+("aeronaveeditar") - le o id da aeronave, verifica se existe no arquivo. Se existir retorna o idaeronave. (Editar situação da aeronave)
+
 ("valorpassagem") - valida e retorna o valor da passagem como string("N2") - Não controla quantidade de casas. Para gravar usar o ValorConverter(float valor).
 
 ("idvenda") - verifica na lista de vendas se existe e retorna o valor
@@ -226,7 +228,6 @@ parâmetros:
 ("cpfexiste") - Se existir cpf na lista de passageiros, retorna o cpf, senão existir retorna null. (Para TelaLoginPassageiro).
 
 ("idvoo") - Verifica se existe na lista de voos um voo com esse id. Se existir retorna o idvoo (Para Tela de compras).
-
 
 
 
