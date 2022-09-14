@@ -1869,10 +1869,7 @@ namespace PAeroportoOnTheFly
                         Console.Write("Informe o código Nacional de identificação da Aeronave: ");
                         try
                         {
-
-
                             idaeronave = Console.ReadLine().ToUpper();
-
 
                             foreach (var aeronave in listAeronaves)
                             {
@@ -1901,13 +1898,13 @@ namespace PAeroportoOnTheFly
                             }
                             else
                             {
-                                Console.WriteLine("Código não encontrado! Insira um código IATA válido!");
+                                Console.WriteLine("Código não encontrado! Insira um código válido!");
                                 retornar = PausaMensagem();
                             }
                         }
                         catch (Exception)
                         {
-                            Console.WriteLine("Insira um código IATA válido!");
+                            Console.WriteLine("ERRO: Insira um código válido!");
                             retornar = PausaMensagem();
                         }
                     } while (retornar == false);
@@ -1917,6 +1914,59 @@ namespace PAeroportoOnTheFly
 
 
                 #endregion
+
+
+                case "aeronaveeditar":
+
+                    #region AeronaveEditar
+                    encontrado = false;
+                    do
+                    {
+                        retornar = false;
+                        Aeronave a = null;
+
+                        Console.Write("Informe o código Nacional de identificação da Aeronave: ");
+                        try
+                        {
+                            idaeronave = Console.ReadLine().ToUpper();
+
+                            foreach (var aeronave in listAeronaves)
+                            {
+                                if (aeronave.Inscricao == idaeronave)
+                                {
+                                    a = aeronave;
+                                    encontrado = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    encontrado = false;
+                                }
+                            }
+                            if (encontrado == true)
+                            {
+                                    return idaeronave;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Código não encontrado! Insira um código válido!");
+                                retornar = PausaMensagem();
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine("ERRO: Insira um código válido!");
+                            retornar = PausaMensagem();
+                        }
+                    } while (retornar == false);
+
+                    //Retorna nulo se o usuário quiser cancelar no meio do cadastro;
+                    return null;
+
+
+                #endregion
+
+
 
 
                 case "valorpassagem":
@@ -2145,61 +2195,6 @@ namespace PAeroportoOnTheFly
 
                 #endregion
 
-                case "cnpjexiste":
-
-                    #region cnpjexiste
-                    do
-                    {
-                        retornar = false;
-                        encontrado = false;
-                        CompanhiaAerea c = null;
-                        Console.Write("Informe o CNPJ para prosseguir: ");
-                        try
-                        {
-                            string cnpj = Console.ReadLine();
-
-                            foreach (var companhia in listCompanhia)
-                            {
-                                if (companhia.Cnpj == cnpj)
-                                {
-                                    c = companhia;
-                                    encontrado = true;
-                                    break;
-                                }
-                                else
-                                {
-                                    encontrado = false;
-                                }
-                            }
-
-                            if (encontrado == true)
-                            {
-                                if (c.Situacao == 'A')
-                                {
-                                    return cnpj;
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Esse CNPJ encontra-se inativo no sistema.");
-                                    retornar = PausaMensagem();
-                                }
-                            }
-                            else
-                            {
-                                Console.WriteLine("CNPJ não encontrado! Insira um CNPJ válido!");
-                                retornar = PausaMensagem();
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            Console.WriteLine("CPF Inválido!");
-                            retornar = PausaMensagem();
-                        }
-                    } while (retornar == false);
-                    //Retorna nulo se o usuário quiser cancelar no meio do cadastro;
-                    return null;
-                #endregion
-
 
                 case "idvenda":
 
@@ -2250,7 +2245,52 @@ namespace PAeroportoOnTheFly
 
                 #endregion
 
+                case "cnpjexiste":
 
+                    #region cnpjogin
+                    do
+                    {
+                        retornar = false;
+                        encontrado = false;
+                        CompanhiaAerea c = null;
+                        Console.Write("Informe o CNPJ para prosseguir: ");
+                        try
+                        {
+                            string cnpj = Console.ReadLine();
+
+                            foreach (var companhia in listCompanhia)
+                            {
+                                if (companhia.Cnpj == cnpj)
+                                {
+                                    c = companhia;
+                                    encontrado = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    encontrado = false;
+                                }
+                            }
+
+                            if (encontrado == true)
+                            {
+                                return cnpj;
+                            }
+                            else
+                            {
+                                Console.WriteLine("CNPJ não encontrado! Insira um CNPJ válido!");
+                                retornar = PausaMensagem();
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine("CPF Inválido!");
+                            retornar = PausaMensagem();
+                        }
+                    } while (retornar == false);
+                    //Retorna nulo se o usuário quiser cancelar no meio do cadastro;
+                    return null;
+                #endregion
 
                 default:
                     return null;
@@ -2315,11 +2355,12 @@ namespace PAeroportoOnTheFly
                 Console.Clear();
                 Console.WriteLine("Bem vindo à On The Fly!");
                 Console.WriteLine("\nPor Favor, informe a Opção Desejada:\n");
-                Console.WriteLine(" 1 - Companhias Aéreas\n");
-                Console.WriteLine(" 2 - Passageiros\n");
+                Console.WriteLine(" 1 - Companhia Aérea\n");
+                Console.WriteLine(" 2 - Passageiro\n");
                 Console.WriteLine(" 3 - Compras de Passagens\n");
                 Console.WriteLine(" 4 - Acesso a Lista de CPF Restritos\n");
-                Console.WriteLine(" 5 - Acesso a Lista de CNPJ Restritos");
+                Console.WriteLine(" 5 - Acesso a Lista de CNPJ Restritos\n");
+                Console.WriteLine(" 6 - Aeronaves");
                 Console.WriteLine("\n 0 - Encerrar Sessão\n");
                 opc = int.Parse(ValidarEntrada("menu"));
                 Console.Clear();
@@ -2371,6 +2412,11 @@ namespace PAeroportoOnTheFly
                     case 5:
                         TelaInicialCnpjRestritos();
                         break;
+
+                    case 6:
+                        TelaVerAeronavesCadastradas();
+                        break;
+
                 }
 
             } while (opc != 0);
@@ -2469,8 +2515,8 @@ namespace PAeroportoOnTheFly
                 Console.Write("\n 1 - Nome");
                 Console.Write("\n 2 - Data de Nascimento");
                 Console.Write("\n 3 - Sexo");
-                Console.Write("\n 4 - Situação (Ativo / Inativo");
-                Console.Write("\n 0 - Voltar");
+                Console.Write("\n 4 - Situação (Ativo / Inativo)");
+                Console.Write("\n\n 0 - Voltar");
                 opc = int.Parse(ValidarEntrada("menu"));
 
                 switch (opc)
@@ -2536,7 +2582,7 @@ namespace PAeroportoOnTheFly
                     case 4:
 
                         Console.Clear();
-                        Console.WriteLine("\nPASSAGEIRO: " + passageiroAtivo.Situacao);
+                        Console.WriteLine("\nPASSAGEIRO: " + passageiroAtivo.Nome);
                         if (passageiroAtivo.Situacao == 'A')
                         { Console.WriteLine("\nSituação Atual: ATIVO"); }
 
@@ -2555,6 +2601,71 @@ namespace PAeroportoOnTheFly
                         Pausa();
                         TelaEditarPassageiro(passageiroAtivo);
                         break;
+                }
+
+            } while (true);
+        }
+        static void TelaEditarCompanhiaAerea(CompanhiaAerea companhiaAerea)
+        {
+            DateTime datanova;
+            int opc;
+            char novaSituacao;
+            string novadata;
+
+             do
+            {
+                Console.Clear();
+                Console.WriteLine("\nEDTAR DADOS");
+                Console.WriteLine("\nEscolha qual Dado deseja Editar: ");
+                Console.Write("\n 1 - Data de Abertura\n");
+                Console.Write("\n 2 - Situação (Ativo / Inativo)\n\n");
+                Console.Write("\n 0 - Voltar");
+                opc = int.Parse(ValidarEntrada("menu"));
+                Console.Clear();
+
+                switch (opc)
+                {
+                    case 0:
+                        TelaOpcoesCompanhiaAerea(companhiaAerea);
+                        break;
+
+                    case 1:
+                        Console.WriteLine("\nData de abertura Atual: " + companhiaAerea.DataAbertura.ToString("dd/MM/yyyy"));
+                        Console.Write("\n\nInforme a nova data");
+                        Pausa();
+                        novadata = ValidarEntrada("dataabertura");
+                        if (novadata == null) TelaEditarCompanhiaAerea(companhiaAerea);
+                        datanova = DateConverter(novadata);
+
+                        companhiaAerea.DataAbertura = datanova;
+                        GravarCompanhiaAerea();
+                        Console.Clear();
+                        Console.WriteLine("\nData de abertura alterada com Sucesso!");
+                        Pausa();
+                        TelaEditarCompanhiaAerea(companhiaAerea);
+                        break;
+
+                    case 2:
+                        Console.WriteLine("\nCompanhia Aérea: " + companhiaAerea.RazaoSocial);
+                        if (companhiaAerea.Situacao == 'A')
+                        { Console.WriteLine("\nSituação Atual: ATIVA"); }
+
+                        if (companhiaAerea.Situacao == 'I')
+                        { Console.WriteLine("\nSituação Atual: INATIVA"); }
+
+                        Pausa();
+
+                        novaSituacao = char.Parse(ValidarEntrada("situacao"));
+                        if (novaSituacao.Equals(null)) TelaEditarCompanhiaAerea(companhiaAerea);
+
+                        companhiaAerea.Situacao = novaSituacao;
+                        GravarCompanhiaAerea();
+                        Console.Clear();
+                        Console.WriteLine("\nSituação de Cadastro Alterada com Sucesso!");
+                        Pausa();
+                        TelaEditarCompanhiaAerea(companhiaAerea);
+                        break;
+
                 }
 
             } while (true);
@@ -2823,8 +2934,10 @@ namespace PAeroportoOnTheFly
                 Console.WriteLine("\nPor Favor, informe a Opção Desejada:\n");
                 Console.WriteLine(" 1 - Cadastrar uma nova Aeronave\n");
                 Console.WriteLine(" 2 - Programar um novo Voo\n");
-                Console.WriteLine(" 3 - Ver a Lista de Voos Cadastrados\n");
-                Console.WriteLine(" 4 - Ver a Lista de Aeronaves Cadastradas\n");
+                Console.WriteLine(" 3 - Cancelar um voo\n");
+                Console.WriteLine(" 4 - Ativar/Inativar Aeronave\n");
+                Console.WriteLine(" 5 - Editar dados da Companhia Aerea\n");
+
                 Console.WriteLine("\n 0 - Encerrar Sessão\n");
                 opc = int.Parse(ValidarEntrada("menu"));
                 Console.Clear();
@@ -2848,16 +2961,77 @@ namespace PAeroportoOnTheFly
                         TelaCadastrarVoo(compAtivo);
 
                         break;
+                   
 
                     case 3:
+                        foreach (var Voo in listVoo)
+                        {
+                            if (Voo.Situacao == 'A')
+                            {
+                                Console.WriteLine("IDVoo: " + Voo.IDVoo + " Destino: " + Voo.Destino + " Data e Hora do Voo: " + Voo.DataVoo.ToString("dd/MM/yyyy HH:mm"));
+                            }
+                        }
+                        Console.WriteLine("\n----------------------------------------------------------------------------------------------");
+                        Console.WriteLine("\n1 - Escolher o Voo Desejado: ");
+                        Console.WriteLine("0 - Voltar");
+                        opc = int.Parse(ValidarEntrada("menu"));
+                        Console.Clear();
 
-                        TelaVerAeronavesCadastradas(compAtivo);
+                        switch (opc)
+                        {
+                            case 0:
+                                TelaOpcoesCompanhiaAerea(compAtivo);
+                                break;
+                            case 1:
+                                Console.Clear();
+                                string idvoo = ValidarEntrada("idvoo");
+                                if (idvoo == null) TelaOpcoesCompanhiaAerea(compAtivo);
+
+                                foreach (var voo in listVoo)
+                                {
+                                    if(voo.IDVoo == idvoo)
+                                    {
+                                        voo.Situacao = 'C';
+                                        Console.WriteLine("Voo CANCELADO!! Um novo Voo deve ser cadastrado.");
+                                        Pausa();
+                                        TelaOpcoesCompanhiaAerea(compAtivo);
+                                    }
+
+                                } 
+
+                                break;
+                        }
 
                         break;
 
+
                     case 4:
 
-                        //  TelaVerVoosCadastrados(compAtivo);
+                        string idaeronave = ValidarEntrada("aeronaveeditar");
+                        if (idaeronave == null) TelaOpcoesCompanhiaAerea(compAtivo);
+
+                        string situacao = ValidarEntrada("situacao");
+                        if (situacao == null) TelaOpcoesCompanhiaAerea(compAtivo);
+                        char s = char.Parse(situacao);
+
+                        foreach (var aeronave in listAeronaves)
+                        {
+                            if(aeronave.Inscricao == idaeronave)
+                            {
+                                aeronave.Situacao = s;
+                            }
+                        }
+                        Console.Clear();
+                        Console.WriteLine("Situação alterada com sucesso!");
+                        Pausa();
+                        TelaOpcoesCompanhiaAerea(compAtivo);
+
+
+                        break;
+
+                    case 5:
+
+                        TelaEditarCompanhiaAerea(compAtivo);
 
                         break;
                 }
@@ -2899,69 +3073,71 @@ namespace PAeroportoOnTheFly
             DateTime dataVoo;
             float valor;
 
-
-            destino = ValidarEntrada("destino");
-            if (destino == null) TelaOpcoesCompanhiaAerea(compAtivo);
-
-            idAeronave = ValidarEntrada("aeronave");
-            if (idAeronave == null) TelaOpcoesCompanhiaAerea(compAtivo);
-
-            auxData = ValidarEntrada("datavoo");
-            if (auxData == null) TelaOpcoesCompanhiaAerea(compAtivo);
-            dataVoo = DateHourConverter(auxData);
-
-            valor = float.Parse(ValidarEntrada("valorpassagem"));
-            if (valor.Equals(null)) TelaOpcoesCompanhiaAerea(compAtivo);
-
-            idVoo = GeradorId("idvoo");
-            if (idVoo == null) TelaOpcoesCompanhiaAerea(compAtivo);
-
-            Voo novoVoo = new Voo(idVoo, destino, idAeronave, dataVoo, System.DateTime.Now, 'A');
-            listVoo.Add(novoVoo);
-            GravarVoo();
-            Aeronave a = null;
-            foreach (var aeronave in listAeronaves)
+            if (compAtivo.Situacao == 'A')
             {
-                if (aeronave.Inscricao == idAeronave)
+                destino = ValidarEntrada("destino");
+                if (destino == null) TelaOpcoesCompanhiaAerea(compAtivo);
+
+                idAeronave = ValidarEntrada("aeronave");
+                if (idAeronave == null) TelaOpcoesCompanhiaAerea(compAtivo);
+
+                auxData = ValidarEntrada("datavoo");
+                if (auxData == null) TelaOpcoesCompanhiaAerea(compAtivo);
+                dataVoo = DateHourConverter(auxData);
+
+                valor = float.Parse(ValidarEntrada("valorpassagem"));
+                if (valor.Equals(null)) TelaOpcoesCompanhiaAerea(compAtivo);
+
+                idVoo = GeradorId("idvoo");
+                if (idVoo == null) TelaOpcoesCompanhiaAerea(compAtivo);
+
+                Voo novoVoo = new Voo(idVoo, destino, idAeronave, dataVoo, System.DateTime.Now, 'A');
+                listVoo.Add(novoVoo);
+                GravarVoo();
+                Aeronave a = null;
+                foreach (var aeronave in listAeronaves)
                 {
-                    a = aeronave;
-                    break;
+                    if (aeronave.Inscricao == idAeronave)
+                    {
+                        a = aeronave;
+                        break;
+                    }
                 }
+                //Gerador de passagens
+                List<string> idsPassagem = GeradorIdPassagens(a.Capacidade);
+                for (int i = 0; i < a.Capacidade; i++)
+                {
+                    PassagemVoo passagem = new PassagemVoo(idsPassagem[i], idVoo, System.DateTime.Now, valor, 'L');
+                    listPassagem.Add(passagem);
+                    GravarPassagem();
+                }
+                Console.WriteLine("\nCadastro Realizado com Sucesso!");
+                Pausa();
+                TelaOpcoesCompanhiaAerea(compAtivo);
             }
-            //Gerador de passagens
-            List<string> idsPassagem = GeradorIdPassagens(a.Capacidade);
-            for (int i = 0; i < a.Capacidade; i++)
+            else
             {
-                PassagemVoo passagem = new PassagemVoo(idsPassagem[i], idVoo, System.DateTime.Now, valor, 'L');
-                listPassagem.Add(passagem);
-                GravarPassagem();
+                Console.WriteLine("\nCompanhia INATIVA no sistema, não pode cadastrar voo!");
+                Pausa();
+                TelaOpcoesCompanhiaAerea(compAtivo);
             }
-            Console.WriteLine("\nCadastro Realizado com Sucesso!");
-            Pausa();
-            TelaOpcoesCompanhiaAerea(compAtivo);
         }
-        static void TelaVerAeronavesCadastradas(CompanhiaAerea compAtivo)
+        static void TelaVerAeronavesCadastradas()
         {
-            /* Console.Clear();
-             foreach (Aeronave aeronave in listAeronaves)
-             {
-                 Console.WriteLine("id: " + aeronave.inscricao + "situação: " + aeronave.situacao);
-             }
-             console.writeline("\n-----------------------------------------------------------------");
-             console.write("\ninforme o id da aeronave que deseja ver os detalhes: ");
-             string aeronave = validarentrada("aeronave");
-             if (aeronave == null) telaopcoescompanhiaaerea(compativo);
-             foreach (aeronave aeronave in listAeronaves)
-             {
-                 if (aeronave.inscricao == aeronave)
-                     TelaEditarAeronave(compativo, aeronave);
-             }*/
+            Console.Clear();
+             
+            foreach(var aeronave in listAeronaves)
+            {
+                Console.WriteLine(aeronave.ToString()+"\n");
+            }
+            Pausa();
+            TelaInicial();
         }
         static void TelaEditarAeronave(CompanhiaAerea compAtivo, Aeronave aeroNave)
         {
 
         }
-        static void TelaVerVoosCadastrados()
+        static void TelaVerVoosCadastrados(CompanhiaAerea compAtivo)
         {
 
 
@@ -3256,7 +3432,7 @@ namespace PAeroportoOnTheFly
             System.IO.Directory.CreateDirectory(@"C:\DBOnTheFly");
             CarregarArquivos();
 
-            Console.WriteLine("Carregado banco de dados");
+            Console.WriteLine("Carregado base de dados");
             Pausa();
 
             TelaInicial();
