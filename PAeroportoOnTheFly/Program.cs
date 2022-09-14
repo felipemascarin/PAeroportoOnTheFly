@@ -42,7 +42,7 @@ namespace PAeroportoOnTheFly
             bool repetirdo;
             do
             {
-                Console.WriteLine("\nPressione S para informar novamente ou C para cancelar cadastro:");
+                Console.WriteLine("\nPressione S para informar novamente ou C para cancelar:");
                 ConsoleKeyInfo op = Console.ReadKey(true);
                 if (op.Key == ConsoleKey.S)
                 {
@@ -166,7 +166,7 @@ namespace PAeroportoOnTheFly
             {
                 DateTime DataNascimento;
                 DateTime DataUltimaCompra;
-               
+
 
                 //cpf nome data  datanascimento sexo data dataultimacompra data datacadastro situacao
                 linhas = System.IO.File.ReadAllLines(@"C:\DBOnTheFly\Passageiro.dat");
@@ -214,12 +214,12 @@ namespace PAeroportoOnTheFly
             {
                 Console.WriteLine("Mensagem de Erro: Não foi possível carregar dados do arquivo Passageiro.dat");
             }
-           
+
             try
             {
                 DateTime DataAbertura;
                 DateTime UltimoVoo;
-                
+
 
                 linhas = System.IO.File.ReadAllLines(@"C:\DBOnTheFly\CompanhiaAerea.dat");
                 foreach (var linha in linhas)
@@ -263,11 +263,11 @@ namespace PAeroportoOnTheFly
             {
                 Console.WriteLine("Mensagem de Erro: Não foi possível carregar dados do arquivo CompanhiaAerea.dat");
             }
- 
+
             try
             {
                 DateTime UltimaVenda;
-                
+
 
                 linhas = System.IO.File.ReadAllLines(@"C:\DBOnTheFly\Aeronaves.dat");
                 foreach (var linha in linhas)
@@ -278,7 +278,7 @@ namespace PAeroportoOnTheFly
                     data = null;
 
                     caracteres = linha.ToCharArray();
-                    
+
                     for (int i = 0; i <= 5; i++)
                     {
                         Inscricao = Inscricao + caracteres[i].ToString();
@@ -315,7 +315,7 @@ namespace PAeroportoOnTheFly
             try
             {
                 DateTime DataVoo;
-                
+
 
                 linhas = System.IO.File.ReadAllLines(@"C:\DBOnTheFly\Voo.dat");
                 foreach (var linha in linhas)
@@ -361,7 +361,7 @@ namespace PAeroportoOnTheFly
             try
             {
                 DateTime DataUltimaOperacao;
-                
+
 
                 linhas = System.IO.File.ReadAllLines(@"C:\DBOnTheFly\PassagemVoo.dat");
                 foreach (var linha in linhas)
@@ -403,7 +403,7 @@ namespace PAeroportoOnTheFly
             try
             {
                 DateTime DataVenda;
-                
+
                 linhas = System.IO.File.ReadAllLines(@"C:\DBOnTheFly\Venda.dat");
                 foreach (var linha in linhas)
                 {
@@ -538,12 +538,12 @@ namespace PAeroportoOnTheFly
                             break;
                         }
                     }
-                    if(encontrado == false)
-                    listaId.Add("PA" + id.ToString());
+                    if (encontrado == false)
+                        listaId.Add("PA" + id.ToString());
                 }
                 return listaId;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 Console.WriteLine("Erro, não foi possível gerar ID's das passagens!");
                 Pausa();
@@ -577,7 +577,7 @@ namespace PAeroportoOnTheFly
                                 }
                             }
 
-                            if(listVoo.Count <= 8999)
+                            if (listVoo.Count <= 8999)
                             {
                                 if (encontrado == false)
                                     return idvoogerado;
@@ -599,39 +599,39 @@ namespace PAeroportoOnTheFly
                         }
                     } while (encontrado == true);
                     return null;
-                    #endregion
-                   
+                #endregion
+
                 case "idvenda":
 
 
                     #region IDVenda
 
-                        try
-                        {
-                            string idvenda = (listVenda.Count + 1).ToString();
-                            if(idvenda.Length == 1) return ("0000" + idvenda);
-                            else if (idvenda.Length == 2 ) return ("000" + idvenda);
-                            else if (idvenda.Length == 3) return ("00" + idvenda);
-                            else if (idvenda.Length == 4) return ("0" + idvenda);
-                            else if (idvenda.Length == 5) return idvenda;
-                            else
-                            {
-                                Console.Clear();
-                                Console.WriteLine("Erro, não foi possível gerar ID da venda! Lista de vendas está cheia");
-                                Pausa();
-                                return null;
-                            }
-                        }
-                        catch (Exception)
+                    try
+                    {
+                        string idvenda = (listVenda.Count + 1).ToString();
+                        if (idvenda.Length == 1) return ("0000" + idvenda);
+                        else if (idvenda.Length == 2) return ("000" + idvenda);
+                        else if (idvenda.Length == 3) return ("00" + idvenda);
+                        else if (idvenda.Length == 4) return ("0" + idvenda);
+                        else if (idvenda.Length == 5) return idvenda;
+                        else
                         {
                             Console.Clear();
-                            Console.WriteLine("Erro, não foi possível gerar ID da venda!");
+                            Console.WriteLine("Erro, não foi possível gerar ID da venda! Lista de vendas está cheia");
                             Pausa();
                             return null;
                         }
+                    }
+                    catch (Exception)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Erro, não foi possível gerar ID da venda!");
+                        Pausa();
+                        return null;
+                    }
 
-                    #endregion
-                    
+                #endregion
+
 
                 case "iditemvenda":
 
@@ -662,7 +662,7 @@ namespace PAeroportoOnTheFly
 
                 #endregion
 
-                default:  
+                default:
                     return null;
             }
         }
@@ -2174,7 +2174,7 @@ namespace PAeroportoOnTheFly
 
                             if (encontrado == true)
                             {
-                                if(c.Situacao == 'A')
+                                if (c.Situacao == 'A')
                                 {
                                     return cnpj;
                                 }
@@ -2350,7 +2350,7 @@ namespace PAeroportoOnTheFly
 
                     case 3:
                         string cpfLogin = ValidarEntrada("cpflogin");
-                        if (cpfLogin == null) TelaInicialPassageiros();
+                        if (cpfLogin == null) TelaInicial();
                         Passageiro passageiroAtivo = null;
                         foreach (var passageiro in listPassageiro)
                         {
@@ -2365,17 +2365,11 @@ namespace PAeroportoOnTheFly
                         break;
 
                     case 4:
-
-                        // Chamar a tela para ver os CPF's Restritos
                         TelaInicialCpfRestritos();
-
                         break;
 
                     case 5:
-
-                        // Chamar a tela para ver os CNPJ's Restritos
                         TelaInicialCnpjRestritos();
-
                         break;
                 }
 
@@ -2579,6 +2573,7 @@ namespace PAeroportoOnTheFly
                 Console.WriteLine("\n 0 - Sair\n");
 
                 opc = int.Parse(ValidarEntrada("menu"));
+                Console.Clear();
 
                 switch (opc)
                 {
@@ -2589,77 +2584,64 @@ namespace PAeroportoOnTheFly
                         break;
 
                     case 1:
-                        Console.Clear();
-
-                        foreach (var passageiro in listRestritos)
+                        if (listRestritos.Count == 0)
                         {
-                            if (listRestritos.Count == 0)
+                            Console.WriteLine("LISTA VAZIA!");
+                            Pausa();
+                            TelaInicialCpfRestritos();
+                        }
+                        else
+                        {
+                            foreach (var cpfRest in listRestritos)
                             {
-                                Console.WriteLine("LISTA VAZIA, IMPOSSÍVEL IMPRIMIR!");
-                                Pausa();
-                                TelaInicialCpfRestritos();
-
+                                Console.WriteLine(cpfRest);
                             }
-                            else
-                            {
-                                foreach (var cpfRest in listRestritos)
-                                {
-                                    Console.WriteLine(cpfRest);
-                                }
-                                Console.WriteLine("Impressão realizada com sucesso!");
-                                Pausa();
-                                TelaInicialCpfRestritos();
-                            }
+                            Pausa();
+                            TelaInicialCpfRestritos();
                         }
                         break;
-
                     case 2:
-                        Console.Clear();
-                        string adcCpf = ValidarEntrada("cpf");
+                        Console.WriteLine("Só é possível adicionar na lista de restritos um CPF cadastrado no sistema!\n");
+                        Pausa();
+                        string adcCpf = ValidarEntrada("cpfexiste");
+                        if (adcCpf == null) TelaInicialCpfRestritos();
                         listRestritos.Add(adcCpf);
+                        GravarRestritos();
                         Console.Clear();
                         Console.WriteLine("Cpf adiconado com sucesso");
                         Pausa();
                         TelaInicialCpfRestritos();
-
                         break;
 
                     case 3:
-                        Console.Clear();
-                        string Cpf = ValidarEntrada("cpf");
-                        bool achei = false;
-
-                        foreach (var passageiro in listRestritos)
+                        if (listRestritos.Count == 0)
                         {
-                            if (listRestritos.Count == 0)
+                            Console.WriteLine("LISTA VAZIA!");
+                            Console.ReadKey();
+                            TelaInicialCpfRestritos();
+                        }
+                        else
+                        {
+                            string Cpf = ValidarEntrada("cpfexiste");
+                            if (Cpf == null) TelaInicialCpfRestritos();
+                            foreach (var cpfRestrito in listRestritos)
                             {
-                                Console.WriteLine("LISTA VAZIA, IMPOSSÍVEL REMOVER!");
-                                Console.ReadKey();
-                                TelaInicialCpfRestritos();
-                            }
-                            else
-                            {
-
-                                foreach (var cpfRestrito in listRestritos)
+                                if (cpfRestrito == Cpf)
                                 {
-                                    if (cpfRestrito == Cpf)
-                                    {
-                                        achei = true;
-                                        listRestritos.Remove(cpfRestrito);
-                                        Console.WriteLine("Cpf Removido com sucesso!");
-                                        Pausa();
-                                        TelaInicialCpfRestritos();
-                                    }
-                                }
-                                if (achei)
-                                {
-                                    Console.WriteLine(Cpf + " não encontrado!");
+                                    listRestritos.Remove(cpfRestrito);
+                                    GravarRestritos();
+                                    Console.Clear();
+                                    Console.WriteLine("Cpf Removido com sucesso!");
                                     Pausa();
                                     TelaInicialCpfRestritos();
                                 }
-
                             }
+                            Console.Clear();
+                            Console.WriteLine("CPF não encontrado!");
+                            Pausa();
+                            TelaInicialCpfRestritos();
                         }
+
 
                         break;
                 }
@@ -2674,12 +2656,13 @@ namespace PAeroportoOnTheFly
                 Console.Clear();
                 Console.WriteLine("\n'CNPJ' RESTRITOS");
                 Console.WriteLine("\nInforme a Opção Desejada:\n");
-                Console.WriteLine(" 1 - Ver a Lista de 'CNPJ' Restritos\n");
-                Console.WriteLine(" 2 - Adicionar um 'CNPJ' à Lista de Restritos\n");
-                Console.WriteLine(" 3 - Remover um 'CNPJ' da Lista de Restritos\n");
+                Console.WriteLine(" 1 - Ver a Lista de 'CNPJ' Bloqueados\n");
+                Console.WriteLine(" 2 - Adicionar um 'CNPJ' à Lista de Bloqueados\n");
+                Console.WriteLine(" 3 - Remover um 'CNPJ' da Lista de Bloqueados\n");
                 Console.WriteLine("\n 0 - Sair\n");
 
                 opc = int.Parse(ValidarEntrada("menu"));
+                Console.Clear();
 
                 switch (opc)
                 {
@@ -2689,73 +2672,63 @@ namespace PAeroportoOnTheFly
                         break;
 
                     case 1:
-                        //imprimo lista de bloqueados
-                        foreach (var companhiaAerea in listBloqueados)
+                        if (listBloqueados.Count == 0)
                         {
-                            if (listBloqueados.Count == 0)
+                            Console.WriteLine("LISTA VAZIA!");
+                            Pausa();
+                            TelaInicialCnpjRestritos();
+                        }
+                        else
+                        {
+                            foreach (var cnpjbloq in listBloqueados)
                             {
-                                Console.WriteLine("LISTA VAZIA, IMPOSSÍVEL IMPRIMIR!");
-                                Pausa();
-                                TelaInicialCnpjRestritos();
+                                Console.WriteLine(cnpjbloq);
                             }
-                            else
-                            {
-                                foreach (var cnpjRest in listRestritos)
-                                {
-                                    Console.WriteLine(cnpjRest);
-                                }
-                                Console.WriteLine("Impressão realizada com sucesso!");
-                                Pausa();
-                                TelaInicialCnpjRestritos();
-                            }
+                            Pausa();
+                            TelaInicialCnpjRestritos();
                         }
                         break;
 
                     case 2:
-                        //adiciono lista de bloqueados
-                        Console.Clear();
-                        string adcCnpj = ValidarEntrada("cnpj");
-                        listRestritos.Add(adcCnpj);
-                        Console.WriteLine("Cnpj adiconado com sucesso");
+                        Console.WriteLine("Só é possível adicionar na lista de bloqueados um CNPJ cadastrado no sistema!\n");
+                        Pausa();
+                        string adcCnpj = ValidarEntrada("cnpjexiste");
+                        if (adcCnpj == null) TelaInicialCnpjRestritos();
+                        listBloqueados.Add(adcCnpj);
+                        GravarBloqueados();
+                        Console.WriteLine("CNPJ adiconado com sucesso!");
                         Pausa();
                         TelaInicialCnpjRestritos();
                         break;
 
                     case 3:
-                        //busco determinado cnpj na lista de bloqueados para remover
-                        Console.Clear();
-                        string Cnpj = ValidarEntrada("cnpj");
-                        bool achei = false;
-                        foreach (var CompanhiaAerea in listBloqueados)
-                        {
-                            if (listBloqueados.Count == 0)
-                            {
-                                Console.WriteLine("LISTA VAZIA, IMPOSSÍVEL REMOVER!");
-                                Console.ReadKey();
-                                TelaInicialCnpjRestritos();
-                            }
-                            else
-                            {
+                        string Cnpj = ValidarEntrada("cnpjexiste");
+                        if (Cnpj == null) TelaInicialCnpjRestritos();
 
-                                foreach (var cnpjBloqueados in listRestritos)
+                        if (listBloqueados.Count == 0)
+                        {
+                            Console.WriteLine("LISTA VAZIA!");
+                            Pausa();
+                            TelaInicialCnpjRestritos();
+                        }
+                        else
+                        {
+                            foreach (var cnpjBloqueado in listBloqueados)
+                            {
+                                if (cnpjBloqueado == Cnpj)
                                 {
-                                    if (cnpjBloqueados == Cnpj)
-                                    {
-                                        achei = true;
-                                        listRestritos.Remove(cnpjBloqueados);
-                                        Console.WriteLine("Cnpj Removido com sucesso!");
-                                        Pausa();
-                                        TelaInicialCnpjRestritos();
-                                    }
-                                }
-                                if (achei)
-                                {
-                                    Console.WriteLine(Cnpj + " não encontrado!");
+                                    listBloqueados.Remove(cnpjBloqueado);
+                                    GravarBloqueados();
+                                    Console.Clear();
+                                    Console.WriteLine("CNPJ Removido com sucesso!");
                                     Pausa();
                                     TelaInicialCnpjRestritos();
                                 }
-
                             }
+                            Console.Clear();
+                            Console.WriteLine(Cnpj + " não encontrado!");
+                            Pausa();
+                            TelaInicialCnpjRestritos();
                         }
                         break;
                 }
@@ -3244,7 +3217,7 @@ namespace PAeroportoOnTheFly
         }
         static void TelaDescricaoItemVenda(Passageiro passageiroAtivo)
         {
-            
+
             string idvenda = ValidarEntrada("idvenda");
             if (idvenda == null) TelaVendas(passageiroAtivo);
             foreach (var itemVenda in listItemVenda)
