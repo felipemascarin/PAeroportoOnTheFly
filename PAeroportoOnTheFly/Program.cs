@@ -3007,24 +3007,7 @@ namespace PAeroportoOnTheFly
 
                     case 4:
 
-                        string idaeronave = ValidarEntrada("aeronaveeditar");
-                        if (idaeronave == null) TelaOpcoesCompanhiaAerea(compAtivo);
-
-                        string situacao = ValidarEntrada("situacao");
-                        if (situacao == null) TelaOpcoesCompanhiaAerea(compAtivo);
-                        char s = char.Parse(situacao);
-
-                        foreach (var aeronave in listAeronaves)
-                        {
-                            if(aeronave.Inscricao == idaeronave)
-                            {
-                                aeronave.Situacao = s;
-                            }
-                        }
-                        Console.Clear();
-                        Console.WriteLine("Situação alterada com sucesso!");
-                        Pausa();
-                        TelaOpcoesCompanhiaAerea(compAtivo);
+                        TelaEditarAeronave(compAtivo);
 
 
                         break;
@@ -3133,14 +3116,26 @@ namespace PAeroportoOnTheFly
             Pausa();
             TelaInicial();
         }
-        static void TelaEditarAeronave(CompanhiaAerea compAtivo, Aeronave aeroNave)
+        static void TelaEditarAeronave(CompanhiaAerea compAtivo)
         {
+            string idaeronave = ValidarEntrada("aeronaveeditar");
+            if (idaeronave == null) TelaOpcoesCompanhiaAerea(compAtivo);
 
-        }
-        static void TelaVerVoosCadastrados(CompanhiaAerea compAtivo)
-        {
+            string situacao = ValidarEntrada("situacao");
+            if (situacao == null) TelaOpcoesCompanhiaAerea(compAtivo);
+            char s = char.Parse(situacao);
 
-
+            foreach (var aeronave in listAeronaves)
+            {
+                if (aeronave.Inscricao == idaeronave)
+                {
+                    aeronave.Situacao = s;
+                }
+            }
+            Console.Clear();
+            Console.WriteLine("Situação alterada com sucesso!");
+            Pausa();
+            TelaOpcoesCompanhiaAerea(compAtivo);
         }
         static void TelaVendas(Passageiro passageiroAtivo)
         {
@@ -3422,9 +3417,6 @@ namespace PAeroportoOnTheFly
 
             Pausa();
             TelaVendas(passageiroAtivo);
-        }
-        static void TelaDescricaoReserva(Passageiro passageiroAtivo)
-        {
         }
 
         static void Main(string[] args)
