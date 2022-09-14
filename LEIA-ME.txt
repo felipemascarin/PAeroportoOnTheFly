@@ -195,9 +195,9 @@ parâmetros:
 
 ("cnpj") - valida, procura se já existe cadastro e se NÃO EXISTIR retorna 14 alfanumericos
 
-("cnpjexiste") - Procura se já existe cadastro, verifica se está ativo e se EXISTIR retorna 14 alfanumericos
+("cnpjexiste") - Procura se já existe cadastro, verifica se está ativo e se EXISTIR retorna 14 alfanumericos (para cadastro de voo)
 
-("cnpjeditar") - Procura se já existe cadastro, e se EXISTIR retorna 14 alfanumericos
+("cnpjeditar") - Procura se já existe cadastro, e se EXISTIR retorna 14 alfanumericos (para tela de edição de dados da companhia aerea)
 
 ("nome") - valida e retorna um nome/razaosocial obrigatoriamente com 50 caracteres (se preciso, preenchido com espaço)
 
