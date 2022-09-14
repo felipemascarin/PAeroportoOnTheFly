@@ -19,7 +19,7 @@ namespace PAeroportoOnTheFly
             this.IDVoo = idVoo;
             this.DataUltimaOperacao = dataUltimaOperacao;
             this.Valor = valor;
-            this.Situacao = Situacao; // Livre,Reservada,Paga
+            this.Situacao = Situacao; 
         }
         public override string ToString()
         {
