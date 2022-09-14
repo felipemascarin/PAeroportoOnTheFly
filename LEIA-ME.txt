@@ -1,6 +1,8 @@
 Sistema de Gerenciamento Aeroporto OnTheFly
 
 
+
+
 Classe Passageiro:
 
 CPF - Deverá seguir todas as definições do Governo federal,  tais como quantidade de dígitos e validação.
@@ -146,6 +148,11 @@ ValorUnitario - Valor unitário da passagem vendida.
 Funções criadas para o funcionamento do OnTheFly:
 
 
+
+Atualiza() retorno void - Quando o programa é iniciado atualiza automaticamente as passagens reservadas e voos realizados.
+As passagens reservadas 'R' vão para livres em 2 dias de reserva e os voos já realizados pela data vão para lista de voos realizados.
+
+
 ValorConverter(float valor) retorno string - converte um valor float até 9.999,00 e retorna um string com obrigatóriamente 8 caracteres.
 (exemplo: 30 reais converte para 0.030,00 ou 100 reais converte para 0.100,00)
 
@@ -283,3 +290,7 @@ static void GravarBloqueados(){}
 
 Destino.dat(Armazena o código IATA de todos os Aeroportos de destino)
 Lista dos Destinos: List<string> listDestino
+
+VooRealizado.dat(Armazena os voos já realizados pela data automaticamente ao iniciar o programa)
+Lista dos Voos Realizados: List<string> voosrealizados
+static void GravarVooRealizado(){}
