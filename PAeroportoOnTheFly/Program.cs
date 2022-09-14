@@ -12,6 +12,7 @@ namespace PAeroportoOnTheFly
         static List<Passageiro> listPassageiro = new List<Passageiro>();
         static List<CompanhiaAerea> listCompanhia = new List<CompanhiaAerea>();
         static List<Aeronave> listAeronaves = new List<Aeronave>();
+        static List<string> voosrealizados = new List<string>();
         static List<Voo> listVoo = new List<Voo>();
         static List<PassagemVoo> listPassagem = new List<PassagemVoo>();
         static List<Venda> listVenda = new List<Venda>();
@@ -19,6 +20,7 @@ namespace PAeroportoOnTheFly
         static List<string> listRestritos = new List<string>();
         static List<string> listBloqueados = new List<string>();
         static List<string> listDestino = new List<string>();
+
 
         static public DateTime DateConverter(string data)
         {
@@ -70,6 +72,67 @@ namespace PAeroportoOnTheFly
             Console.WriteLine("\nAperte 'ENTER' para continuar...");
             Console.ReadKey();
             Console.Clear();
+        }
+        static void Atualizar()
+        {
+            try
+            {
+                //Exclui voos já realizados
+                for (int j = 0; j < listVoo.Count; j++)
+                {
+                    if (DateTime.Compare(listVoo[j].DataVoo, System.DateTime.Now) < 0)
+                    {
+                        for (int i = 0; i < listPassagem.Count; i++)
+                        {
+                            if (listPassagem[i].IDVoo == listVoo[j].IDVoo)
+                            {
+                                if (listPassagem.Count > 1)
+                                {
+                                    PassagemVoo aux = listPassagem[i + 1];
+                                    listPassagem.Remove(listPassagem[i]);
+                                    listPassagem[i] = aux;
+                                    i--;
+                                }
+                                else
+                                {
+                                    listPassagem.Remove(listPassagem[i]);
+                                }
+                            }
+                        }
+
+                        voosrealizados.Add(listVoo[j].DadosVooRealizado());
+                        GravarVooRealizado();
+
+                        if (listVoo.Count > 1)
+                        {
+                            Voo auxi = listVoo[j + 1];
+                            listVoo.Remove(listVoo[j]);
+                            listVoo[j] = auxi;
+                            j--;
+                        }
+                        else
+                        {
+                            listVoo.Remove(listVoo[j]);
+                        }
+                    }
+                }
+
+                //Altera as passagens reservadas para livres em 2 dias após a compra
+                foreach (var passagem in listPassagem)
+                {
+                    if (passagem.Situacao == 'R' && DateTime.Compare(passagem.DataUltimaOperacao.AddDays(2), System.DateTime.Now) < 0)
+                    {
+                        passagem.Situacao = 'L';
+                    }
+                }
+                GravarVoo();
+                GravarPassagem();
+            }
+            catch(Exception)
+            {
+                Console.WriteLine("ERRO de arquivo! Não foi possível atualizar os voos e passagens!");
+                Pausa();
+            }
         }
         static void GravarPassageiro()
         {
@@ -151,6 +214,15 @@ namespace PAeroportoOnTheFly
                 gravBloqueados.WriteLine(bloqueados);
             }
             gravBloqueados.Close();
+        }
+        static void GravarVooRealizado()
+        {
+            StreamWriter gravRealizados = new StreamWriter(@"C:\DBOnTheFly\VooRealizado.dat");
+            foreach (var voorealizado in voosrealizados)
+            {
+                gravRealizados.WriteLine(voorealizado);
+            }
+            gravRealizados.Close();
         }
         static void CarregarArquivos()
         {
@@ -512,6 +584,21 @@ namespace PAeroportoOnTheFly
             catch (Exception)
             {
                 Console.WriteLine("Mensagem de Erro: Não foi possível carregar dados do arquivo Destino.dat");
+            }
+
+            //Voos Realizados
+
+            try
+            {
+                linhas = System.IO.File.ReadAllLines(@"C:\DBOnTheFly\VooRealizado.dat");
+                foreach (var linha in linhas)
+                {
+                    voosrealizados.Add(linha);
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Mensagem de Erro: Não foi possível carregar dados dos voos já realizados.dat");
             }
         }
         static List<string> GeradorIdPassagens(int capacidadeassentos)
@@ -1945,7 +2032,7 @@ namespace PAeroportoOnTheFly
                             }
                             if (encontrado == true)
                             {
-                                    return idaeronave;
+                                return idaeronave;
                             }
                             else
                             {
@@ -2360,7 +2447,8 @@ namespace PAeroportoOnTheFly
                 Console.WriteLine(" 3 - Compras de Passagens\n");
                 Console.WriteLine(" 4 - Acesso a Lista de CPF Restritos\n");
                 Console.WriteLine(" 5 - Acesso a Lista de CNPJ Restritos\n");
-                Console.WriteLine(" 6 - Aeronaves");
+                Console.WriteLine(" 6 - Aeronaves\n");
+                Console.WriteLine(" 7 - Voos Realizados\n");
                 Console.WriteLine("\n 0 - Encerrar Sessão\n");
                 opc = int.Parse(ValidarEntrada("menu"));
                 Console.Clear();
@@ -2378,6 +2466,7 @@ namespace PAeroportoOnTheFly
                         GravarItemVenda();
                         GravarBloqueados();
                         GravarRestritos();
+                        GravarVooRealizado();
                         Environment.Exit(0);
                         break;
 
@@ -2417,6 +2506,13 @@ namespace PAeroportoOnTheFly
                         TelaVerAeronavesCadastradas();
                         break;
 
+                    case 7:
+                        foreach (var voorealizado in voosrealizados)
+                        {
+                            Console.WriteLine(voorealizado);
+                        }
+                        Pausa();
+                        break;
                 }
 
             } while (opc != 0);
@@ -2612,7 +2708,7 @@ namespace PAeroportoOnTheFly
             char novaSituacao;
             string novadata;
 
-             do
+            do
             {
                 Console.Clear();
                 Console.WriteLine("\nEDTAR DADOS");
@@ -2961,7 +3057,7 @@ namespace PAeroportoOnTheFly
                         TelaCadastrarVoo(compAtivo);
 
                         break;
-                   
+
 
                     case 3:
                         foreach (var Voo in listVoo)
@@ -2989,7 +3085,7 @@ namespace PAeroportoOnTheFly
 
                                 foreach (var voo in listVoo)
                                 {
-                                    if(voo.IDVoo == idvoo)
+                                    if (voo.IDVoo == idvoo)
                                     {
                                         voo.Situacao = 'C';
                                         Console.WriteLine("Voo CANCELADO!! Um novo Voo deve ser cadastrado.");
@@ -2997,7 +3093,7 @@ namespace PAeroportoOnTheFly
                                         TelaOpcoesCompanhiaAerea(compAtivo);
                                     }
 
-                                } 
+                                }
 
                                 break;
                         }
@@ -3108,10 +3204,10 @@ namespace PAeroportoOnTheFly
         static void TelaVerAeronavesCadastradas()
         {
             Console.Clear();
-             
-            foreach(var aeronave in listAeronaves)
+
+            foreach (var aeronave in listAeronaves)
             {
-                Console.WriteLine(aeronave.ToString()+"\n");
+                Console.WriteLine(aeronave.ToString() + "\n");
             }
             Pausa();
             TelaInicial();
@@ -3315,7 +3411,7 @@ namespace PAeroportoOnTheFly
                     retornar = false;
                     do
                     {
-                        Console.WriteLine("Digite a quantidade de passagens que deseja reservar: ");
+                        Console.WriteLine("\nInforme a quantidade de passagens para reserva (máximo 4): \n1  2  3  4");
                         quantPassagem = int.Parse(ValidarEntrada("menu"));
                         if (quantPassagem > 0 && quantPassagem <= 4)
                         {
@@ -3409,7 +3505,7 @@ namespace PAeroportoOnTheFly
             {
                 if (passagem.Situacao == 'R')
                 {
-                    Console.WriteLine("ID Passagem: " + passagem.IDPassagem + "ID Voo: " + passagem.IDVoo + "Valor: " + passagem.Valor + "Data da Reserva: " + passagem.DataUltimaOperacao);
+                    Console.WriteLine("ID Passagem: " + passagem.IDPassagem + " ID Voo: " + passagem.IDVoo + " Valor: " + passagem.Valor + " Data da Reserva: " + passagem.DataUltimaOperacao);
                 }
 
             }
@@ -3423,12 +3519,10 @@ namespace PAeroportoOnTheFly
         {
             System.IO.Directory.CreateDirectory(@"C:\DBOnTheFly");
             CarregarArquivos();
-
+            Atualizar();
             Console.WriteLine("Carregado base de dados");
             Pausa();
-
             TelaInicial();
-
         }
     }
 }
