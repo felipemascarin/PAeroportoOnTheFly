@@ -26,7 +26,11 @@ namespace PAeroportoOnTheFly
         }
         public override string ToString()
         {
-            return "\nDADOS AERONAVE: \nInscrição: " + Inscricao + "\nCapacidade: " + Capacidade + "\nAssentos Ocupados: " + AssentosOcupados + "\nData Cadastro: " + DataCadastro.ToString("dd/MM/yyyy HH:mm") + "\nÚltima Venda: " + UltimaVenda.ToString("dd/MM/yyyy HH:mm") + "\nSituação: " + Situacao;
+            string s;
+            if (Situacao == 'A') s = "ATIVA";
+            else s = "INATIVA";
+
+            return "\nDADOS AERONAVE: \nInscrição: " + Inscricao + "\nCapacidade: " + Capacidade + "\nAssentos Ocupados: " + AssentosOcupados + "\nData Cadastro: " + DataCadastro.ToString("dd/MM/yyyy HH:mm") + "\nÚltima Venda: " + UltimaVenda.ToString("dd/MM/yyyy HH:mm") + "\nSituação: " + s;
         }
         public string ObterDados()
         {
