@@ -188,7 +188,7 @@ parâmetros:
 
 ValidarEntrada(String entrada);
 
-- recebe uma string como parâmetros (listados logo a baixo)
+- recebe uma string como parâmetros (listados logo abaixo)
 - realiza um tratamento do valor de entrada escolhido
 - retorna um valor como string que pode ser convertido posteriormente
 - Ou retorna nullo se o usuário cancelar a entrada dos dados
