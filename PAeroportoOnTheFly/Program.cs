@@ -28,6 +28,7 @@ namespace PAeroportoOnTheFly
             string datacombarras = (datasembarra[0].ToString() + datasembarra[1].ToString() + "/" + datasembarra[2].ToString() + datasembarra[3].ToString() + "/" + datasembarra[4].ToString() + datasembarra[5].ToString() + datasembarra[6].ToString() + datasembarra[7].ToString());
             return DateTime.Parse(datacombarras);
         }
+
         static public DateTime DateHourConverter(string datahora)
         {
             char[] datahorastring = datahora.ToCharArray();
@@ -39,6 +40,7 @@ namespace PAeroportoOnTheFly
             }
             return DateTime.Parse(datacombarras);
         }
+
         static bool PausaMensagem()
         {
             bool repetirdo;
@@ -67,12 +69,14 @@ namespace PAeroportoOnTheFly
             } while (repetirdo == true);
             return true;
         }
+
         static void Pausa()
         {
             Console.WriteLine("\nAperte 'ENTER' para continuar...");
             Console.ReadKey();
             Console.Clear();
         }
+
         static void Atualizar()
         {
             try
@@ -134,6 +138,7 @@ namespace PAeroportoOnTheFly
                 Pausa();
             }
         }
+
         static void GravarPassageiro()
         {
             StreamWriter gravPassageiro = new StreamWriter(@"C:\DBOnTheFly\Passageiro.dat");
@@ -143,6 +148,7 @@ namespace PAeroportoOnTheFly
             }
             gravPassageiro.Close();
         }
+
         static void GravarCompanhiaAerea()
         {
             StreamWriter gravCompAerea = new StreamWriter(@"C:\DBOnTheFly\CompanhiaAerea.dat");
@@ -152,6 +158,7 @@ namespace PAeroportoOnTheFly
             }
             gravCompAerea.Close();
         }
+
         static void GravarAeronaves()
         {
             StreamWriter gravAeronaves = new StreamWriter(@"C:\DBOnTheFly\Aeronaves.dat");
@@ -161,6 +168,7 @@ namespace PAeroportoOnTheFly
             }
             gravAeronaves.Close();
         }
+
         static void GravarVoo()
         {
             StreamWriter gravVoo = new StreamWriter(@"C:\DBOnTheFly\Voo.dat");
@@ -170,6 +178,7 @@ namespace PAeroportoOnTheFly
             }
             gravVoo.Close();
         }
+
         static void GravarPassagem()
         {
             StreamWriter gravPassagem = new StreamWriter(@"C:\DBOnTheFly\PassagemVoo.dat");
@@ -179,6 +188,7 @@ namespace PAeroportoOnTheFly
             }
             gravPassagem.Close();
         }
+
         static void GravarVenda()
         {
             StreamWriter gravVenda = new StreamWriter(@"C:\DBOnTheFly\Venda.dat");
@@ -188,6 +198,7 @@ namespace PAeroportoOnTheFly
             }
             gravVenda.Close();
         }
+
         static void GravarItemVenda()
         {
             StreamWriter gravItemVenda = new StreamWriter(@"C:\DBOnTheFly\ItemVenda.dat");
@@ -197,6 +208,7 @@ namespace PAeroportoOnTheFly
             }
             gravItemVenda.Close();
         }
+
         static void GravarRestritos()
         {
             StreamWriter gravRestritos = new StreamWriter(@"C:\DBOnTheFly\Restritos.dat");
@@ -206,6 +218,7 @@ namespace PAeroportoOnTheFly
             }
             gravRestritos.Close();
         }
+
         static void GravarBloqueados()
         {
             StreamWriter gravBloqueados = new StreamWriter(@"C:\DBOnTheFly\Bloqueados.dat");
@@ -215,6 +228,7 @@ namespace PAeroportoOnTheFly
             }
             gravBloqueados.Close();
         }
+
         static void GravarVooRealizado()
         {
             StreamWriter gravRealizados = new StreamWriter(@"C:\DBOnTheFly\VooRealizado.dat");
@@ -224,6 +238,7 @@ namespace PAeroportoOnTheFly
             }
             gravRealizados.Close();
         }
+
         static void CarregarArquivos()
         {
             char[] caracteres;
@@ -601,6 +616,7 @@ namespace PAeroportoOnTheFly
                 Console.WriteLine("Mensagem de Erro: Não foi possível carregar dados dos voos já realizados.dat");
             }
         }
+
         static List<string> GeradorIdPassagens(int capacidadeassentos)
         {
             try
@@ -637,6 +653,7 @@ namespace PAeroportoOnTheFly
                 return null;
             }
         }
+
         static public string GeradorId(String id)
         {
             switch (id)
@@ -753,6 +770,7 @@ namespace PAeroportoOnTheFly
                     return null;
             }
         }
+
         static string ValidarEntrada(string entrada)
         {
             string[] vetorletras = new string[] {"Ç","ç","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S",
@@ -2383,6 +2401,7 @@ namespace PAeroportoOnTheFly
                     return null;
             }
         }
+
         static string ValorConverter(float valor)
         {
             try
@@ -2434,6 +2453,7 @@ namespace PAeroportoOnTheFly
                 return null;
             }
         }
+
         static void TelaInicial()
         {
             int opc = 0;
@@ -2508,6 +2528,7 @@ namespace PAeroportoOnTheFly
             } while (opc != 0);
 
         }
+
         static void TelaInicialPassageiros()
         {
             int opc = 0;
@@ -2538,6 +2559,7 @@ namespace PAeroportoOnTheFly
 
             } while (opc != 0);
         }
+
         static void TelaLoginPassageiro()
         {
             string cpf;
@@ -2554,6 +2576,7 @@ namespace PAeroportoOnTheFly
                 }
             }
         }
+
         static void TelaCadastrarPassageiro()
         {
             do
@@ -2584,6 +2607,7 @@ namespace PAeroportoOnTheFly
 
             } while (true);
         }
+
         static void TelaEditarPassageiro(Passageiro passageiroAtivo)
         {
             int opc;
@@ -2691,6 +2715,7 @@ namespace PAeroportoOnTheFly
 
             } while (true);
         }
+
         static void TelaEditarCompanhiaAerea(CompanhiaAerea companhiaAerea)
         {
             DateTime datanova;
@@ -2756,6 +2781,7 @@ namespace PAeroportoOnTheFly
 
             } while (true);
         }
+
         static void TelaInicialCpfRestritos()
         {
             int opc = 0;
@@ -2845,6 +2871,7 @@ namespace PAeroportoOnTheFly
 
             } while (true);
         }
+
         static void TelaInicialCnpjRestritos()
         {
             int opc = 0;
@@ -2932,6 +2959,7 @@ namespace PAeroportoOnTheFly
 
             } while (true);
         }
+
         static void TelaInicialCompanhiasAereas()
         {
             int opc = 0;
@@ -2968,6 +2996,7 @@ namespace PAeroportoOnTheFly
 
             } while (opc != 0);
         }
+
         static void TelaLoginCompanhiaAerea()
         {
             string cnpj;
@@ -2988,6 +3017,7 @@ namespace PAeroportoOnTheFly
             }
 
         }
+
         static void TelaCadastrarCompanhiaAerea()
         {
             string nomeComp;
@@ -3010,6 +3040,7 @@ namespace PAeroportoOnTheFly
 
 
         }
+
         static void TelaOpcoesCompanhiaAerea(CompanhiaAerea compAtivo)
         {
             int opc = 0;
@@ -3108,6 +3139,7 @@ namespace PAeroportoOnTheFly
 
             } while (true);
         }
+
         static void TelaCadastrarAeronave(CompanhiaAerea compAtivo)
         {
             string idAeronave;
@@ -3132,6 +3164,7 @@ namespace PAeroportoOnTheFly
             Pausa();
             TelaOpcoesCompanhiaAerea(compAtivo);
         }
+
         static void TelaCadastrarVoo(CompanhiaAerea compAtivo)
         {
             Console.Clear();
@@ -3191,6 +3224,7 @@ namespace PAeroportoOnTheFly
                 TelaOpcoesCompanhiaAerea(compAtivo);
             }
         }
+
         static void TelaVerAeronavesCadastradas()
         {
             Console.Clear();
@@ -3202,6 +3236,7 @@ namespace PAeroportoOnTheFly
             Pausa();
             TelaInicial();
         }
+
         static void TelaEditarAeronave(CompanhiaAerea compAtivo)
         {
             string idaeronave = ValidarEntrada("aeronaveeditar");
@@ -3223,6 +3258,7 @@ namespace PAeroportoOnTheFly
             Pausa();
             TelaOpcoesCompanhiaAerea(compAtivo);
         }
+
         static void TelaVendas()
         {
 
@@ -3265,6 +3301,7 @@ namespace PAeroportoOnTheFly
                     break;
             }
         }
+
         static void TelaVoosDisponiveis(Passageiro passageiroAtivo)
         {
             int opc;
@@ -3294,6 +3331,7 @@ namespace PAeroportoOnTheFly
                     break;
             }
         }
+
         static void TelaDescricaoVoo(string idvoo, Passageiro passageiroAtivo)
         {
 
@@ -3354,7 +3392,7 @@ namespace PAeroportoOnTheFly
                                         passagem.Situacao = 'P';
                                         passagem.DataUltimaOperacao = System.DateTime.Now;
                                         GravarPassagem();
-                                        ItemVenda item = new ItemVenda(GeradorId("iditemvenda"), passagem.IDPassagem, passagem.Valor);
+                                        ItemVenda item = new ItemVenda(GeradorId("iditemvenda"), passagem.IDPassagem, passagem.Valor, passageiroAtivo.Cpf, passageiroAtivo.Nome);
                                         listItemVenda.Add(item);
                                         GravarItemVenda();
                                         cont++;
@@ -3463,6 +3501,7 @@ namespace PAeroportoOnTheFly
                     break;
             }
         }
+
         static void TelaHistoricoVendas()
         {
             int opc;
@@ -3486,6 +3525,7 @@ namespace PAeroportoOnTheFly
                     break;
             }
         }
+
         static void TelaDescricaoItemVenda()
         {
 
@@ -3502,6 +3542,7 @@ namespace PAeroportoOnTheFly
             TelaVendas();
 
         }
+
         static void TelaHistoricoReservadas()
         {
             foreach (var passagem in listPassagem)
@@ -3517,6 +3558,7 @@ namespace PAeroportoOnTheFly
             Pausa();
             TelaVendas();
         }
+
 
         static void Main(string[] args)
         {
