@@ -11,12 +11,16 @@ namespace PAeroportoOnTheFly
         public string IDItemVenda { get; set; }
         public string IDPassagem { get; set; }
         public float ValorUnitario { get; set; }
+        public string Cpf { get; set; }
+        public string Nome { get; set; }
 
-        public ItemVenda(string idItemVenda, string idPassagem, float valorUnitario)
+        public ItemVenda(string idItemVenda, string idPassagem, float valorUnitario, string cpf, string nome)
         {
             this.IDItemVenda = idItemVenda;
             this.IDPassagem = idPassagem;
             this.ValorUnitario = valorUnitario;
+            this.Cpf = cpf;
+            this.Nome = nome;
         }
         public override string ToString()
         {
