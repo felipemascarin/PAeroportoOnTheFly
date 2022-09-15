@@ -58,6 +58,10 @@ Capacidade - É a quantidade de passageiros que a aeronave comporta.
 
 AssentosOcupados - Quantidade de assentos já vendidos.
 
+Cnpj - Da Companhia Aerea dessa Aeronave.
+
+RazaoSocial - Da Companhia Aerea dessa Aeronave.
+
 Situação - 1 Caractere (A – Ativo ou I – Inativo)
 
 Datas:
@@ -138,6 +142,10 @@ IDItemVenda - É o código que identifica a venda que está sendo realizada.
 IDPassagem - É o identificador da passagem que está sendo vendida.
 
 ValorUnitario - Valor unitário da passagem vendida.
+
+CPF - Do passageiro que realizou a compra.
+
+Nome - Do passageiro que realizou a compra.
 
 
 
