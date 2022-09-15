@@ -199,8 +199,10 @@ ValidarEntrada(String entrada);
 - recebe uma string como parâmetros (listados a seguir)
 - realiza um tratamento do valor de entrada escolhido
 - retorna um valor como string que pode ser convertido posteriormente
-- Ou retorna nullo se o usuário cancelar a entrada dos dados
-- Quando retornar NULL significa somente que é pra cancelar, voltar para o menu
+- A função fica pedindo a entrada do dado correto e se a verificação falhar, da a opção pro usuário tentar novamente
+- Ou retorna nullo se o usuário cancelar a tentativa de entrada dos dados
+- Quando retornar NULL significa para o controle do retorno somente que é pra cancelar, voltar para o menu anterior
+
 
 parâmetros:
 
