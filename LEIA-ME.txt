@@ -186,10 +186,10 @@ parâmetros:
 ("idvoo") - Gera e retorna um idVoo único.
 
 ("idvenda") - Gera e retorna um idVenda único.
-10000 até 99999 Retorna obrigatóriamente 5 caracteres.
+até 99999 Retorna obrigatóriamente 5 caracteres.
 
 ("iditemvenda") - Gera e retorna um idItemVenda único.
-10000 até 99999 Retorna obrigatóriamente 5 caracteres.
+até 99999 Retorna obrigatóriamente 5 caracteres.
 
 
 
