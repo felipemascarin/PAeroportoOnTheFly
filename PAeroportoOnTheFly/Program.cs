@@ -132,7 +132,7 @@ namespace PAeroportoOnTheFly
                 GravarVoo();
                 GravarPassagem();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 Console.WriteLine("ERRO de arquivo! Não foi possível atualizar os voos e passagens!");
                 Pausa();
@@ -254,8 +254,6 @@ namespace PAeroportoOnTheFly
                 DateTime DataNascimento;
                 DateTime DataUltimaCompra;
 
-
-                //cpf nome data  datanascimento sexo data dataultimacompra data datacadastro situacao
                 linhas = System.IO.File.ReadAllLines(@"C:\DBOnTheFly\Passageiro.dat");
                 foreach (var linha in linhas)
                 {
@@ -362,6 +360,8 @@ namespace PAeroportoOnTheFly
                     string Inscricao = null;
                     int Capacidade = 0;
                     int Assentos = 0;
+                    string cnpj = null;
+                    string razaosocial = null;
                     data = null;
 
                     caracteres = linha.ToCharArray();
@@ -390,7 +390,15 @@ namespace PAeroportoOnTheFly
                     }
                     DataCadastro = DateHourConverter(data);
                     Situacao = caracteres[36];
-                    Aeronave Aer = new Aeronave(Inscricao, Capacidade, Assentos, UltimaVenda, DataCadastro, Situacao);
+                    for (int i = 37; i <= 50; i++)
+                    {
+                        cnpj = cnpj + caracteres[i].ToString();
+                    }
+                    for (int i = 51; i <= 100; i++)
+                    {
+                        razaosocial = razaosocial + caracteres[i].ToString();
+                    }
+                    Aeronave Aer = new Aeronave(Inscricao, Capacidade, Assentos, UltimaVenda, DataCadastro, Situacao, cnpj, razaosocial);
                     listAeronaves.Add(Aer);
                 }
             }
@@ -513,7 +521,7 @@ namespace PAeroportoOnTheFly
                     {
                         CpfPassageiro = CpfPassageiro + caracteres[i].ToString();
                     }
-                    for (int i = 27; i <= 34; i++)
+                    for (int i = 28; i <= 35; i++)
                     {
                         valor = valor + caracteres[i].ToString();
                     }
@@ -534,6 +542,8 @@ namespace PAeroportoOnTheFly
                 {
                     string IDItemVenda = null;
                     string IDPassagem = null;
+                    string cpf = null;
+                    string nome = null;
                     valor = null;
 
                     caracteres = linha.ToCharArray();
@@ -545,12 +555,20 @@ namespace PAeroportoOnTheFly
                     {
                         IDPassagem = IDPassagem + caracteres[i].ToString();
                     }
-                    for (int i = 11; i <= 17; i++)
+                    for (int i = 11; i <= 18; i++)
                     {
                         valor = valor + caracteres[i].ToString();
                     }
                     Valor = float.Parse(valor);
-                    ItemVenda IV = new ItemVenda(IDItemVenda, IDPassagem, Valor);
+                    for (int i = 19; i <= 29; i++)
+                    {
+                        cpf = cpf + caracteres[i].ToString();
+                    }
+                    for (int i = 30; i <= 79; i++)
+                    {
+                        nome = nome + caracteres[i].ToString();
+                    }
+                    ItemVenda IV = new ItemVenda(IDItemVenda, IDPassagem, Valor, cpf, nome);
                     listItemVenda.Add(IV);
                 }
             }
@@ -2469,6 +2487,7 @@ namespace PAeroportoOnTheFly
                 Console.WriteLine(" 5 - Acesso a Lista de CNPJ Restritos\n");
                 Console.WriteLine(" 6 - Aeronaves\n");
                 Console.WriteLine(" 7 - Voos Realizados\n");
+                Console.WriteLine(" 8 - Voos Disponíveis");
                 Console.WriteLine("\n 0 - Encerrar Sessão\n");
                 opc = int.Parse(ValidarEntrada("menu"));
                 Console.Clear();
@@ -2499,7 +2518,7 @@ namespace PAeroportoOnTheFly
                         break;
 
                     case 3:
-                       
+
                         TelaVendas();
 
                         break;
@@ -2520,6 +2539,17 @@ namespace PAeroportoOnTheFly
                         foreach (var voorealizado in voosrealizados)
                         {
                             Console.WriteLine(voorealizado);
+                        }
+                        Pausa();
+                        break;
+
+                    case 8:
+                        foreach (var Voo in listVoo)
+                        {
+                            if (Voo.Situacao == 'A')
+                            {
+                                Console.WriteLine("IDVoo: " + Voo.IDVoo + " Destino: " + Voo.Destino + " Data e Hora do Voo: " + Voo.DataVoo.ToString("dd/MM/yyyy HH:mm"));
+                            }
                         }
                         Pausa();
                         break;
@@ -2626,13 +2656,13 @@ namespace PAeroportoOnTheFly
                 Console.Write("\n 2 - Data de Nascimento");
                 Console.Write("\n 3 - Sexo");
                 Console.Write("\n 4 - Situação (Ativo / Inativo)");
-                Console.Write("\n\n 0 - Voltar");
+                Console.Write("\n\n 0 - Sair");
                 opc = int.Parse(ValidarEntrada("menu"));
 
                 switch (opc)
                 {
                     case 0:
-                        TelaInicialPassageiros();
+                        TelaInicial();
                         break;
 
                     case 1:
@@ -3036,7 +3066,7 @@ namespace PAeroportoOnTheFly
             CompanhiaAerea novaComp = new CompanhiaAerea(cnpj, nomeComp, DateConverter(dataAbertura), System.DateTime.Now, System.DateTime.Now, 'A');
             listCompanhia.Add(novaComp);
             GravarCompanhiaAerea();
-            TelaLoginCompanhiaAerea();
+            TelaInicialCompanhiasAereas();
 
 
         }
@@ -3063,7 +3093,7 @@ namespace PAeroportoOnTheFly
                 {
                     case 0:
 
-                        TelaInicialCompanhiasAereas();
+                        TelaInicial();
 
                         break;
 
@@ -3157,7 +3187,7 @@ namespace PAeroportoOnTheFly
             situacao = char.Parse(ValidarEntrada("situacao"));
             if (situacao.Equals(null)) TelaOpcoesCompanhiaAerea(compAtivo);
 
-            novaAeronave = new Aeronave(idAeronave, capacidade, 0, System.DateTime.Now, System.DateTime.Now, situacao);
+            novaAeronave = new Aeronave(idAeronave, capacidade, 0, System.DateTime.Now, System.DateTime.Now, situacao, compAtivo.Cnpj, compAtivo.RazaoSocial);
             listAeronaves.Add(novaAeronave);
             GravarAeronaves();
             Console.WriteLine("\nCadastro Realizado com Sucesso!");
@@ -3277,7 +3307,6 @@ namespace PAeroportoOnTheFly
                     TelaInicialPassageiros();
                     break;
                 case 1:
-
                     string cpfLogin = ValidarEntrada("cpflogin");
                     if (cpfLogin == null) TelaInicial();
                     Passageiro passageiroAtivo = null;
@@ -3289,8 +3318,7 @@ namespace PAeroportoOnTheFly
                             break;
                         }
                     }
-
-
+                    Console.Clear();
                     TelaVoosDisponiveis(passageiroAtivo);
                     break;
                 case 2:

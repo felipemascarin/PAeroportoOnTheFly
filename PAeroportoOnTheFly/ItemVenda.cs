@@ -24,11 +24,11 @@ namespace PAeroportoOnTheFly
         }
         public override string ToString()
         {
-            return "\nDADOS ITEM VENDA: \nID Item Venda: " + IDItemVenda + "\nID Passagem: " + IDPassagem + "\nValor Unitário: " + ValorUnitario;
+            return "\nDADOS ITEM VENDA: \nID Item Venda: " + IDItemVenda + "\nID Passagem: " + IDPassagem + "\nID Cliente: " + Nome + "\nCPF: " + Cpf;
         }
         public string ObterDados()
         {
-            return IDItemVenda + IDPassagem + ValorConverter(ValorUnitario);
+            return IDItemVenda + IDPassagem + ValorConverter(ValorUnitario) + Cpf + Nome;
         }
         static public string ValorConverter(float valor)
         {

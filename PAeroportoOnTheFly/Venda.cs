@@ -10,7 +10,7 @@ namespace PAeroportoOnTheFly
     {
         public string IDVenda { get; set; }
         public DateTime DataVenda { get; set; }
-        public string Passageiro { get; set; }// CPF do passageiro
+        public string Passageiro { get; set; }
         public float ValorTotal { get; set; }
         public Venda(string idVenda, DateTime dataVenda, string passageiro, float valorTotal)
         {
