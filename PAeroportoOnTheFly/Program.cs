@@ -2479,18 +2479,8 @@ namespace PAeroportoOnTheFly
                         break;
 
                     case 3:
-                        string cpfLogin = ValidarEntrada("cpflogin");
-                        if (cpfLogin == null) TelaInicial();
-                        Passageiro passageiroAtivo = null;
-                        foreach (var passageiro in listPassageiro)
-                        {
-                            if (passageiro.Cpf == cpfLogin)
-                            {
-                                passageiroAtivo = passageiro;
-                                break;
-                            }
-                        }
-                        TelaVendas(passageiroAtivo);
+                       
+                        TelaVendas();
 
                         break;
 
@@ -3233,7 +3223,7 @@ namespace PAeroportoOnTheFly
             Pausa();
             TelaOpcoesCompanhiaAerea(compAtivo);
         }
-        static void TelaVendas(Passageiro passageiroAtivo)
+        static void TelaVendas()
         {
 
             int opc;
@@ -3251,13 +3241,27 @@ namespace PAeroportoOnTheFly
                     TelaInicialPassageiros();
                     break;
                 case 1:
+
+                    string cpfLogin = ValidarEntrada("cpflogin");
+                    if (cpfLogin == null) TelaInicial();
+                    Passageiro passageiroAtivo = null;
+                    foreach (var passageiro in listPassageiro)
+                    {
+                        if (passageiro.Cpf == cpfLogin)
+                        {
+                            passageiroAtivo = passageiro;
+                            break;
+                        }
+                    }
+
+
                     TelaVoosDisponiveis(passageiroAtivo);
                     break;
                 case 2:
-                    TelaHistoricoVendas(passageiroAtivo);
+                    TelaHistoricoVendas();
                     break;
                 case 3:
-                    TelaHistoricoReservadas(passageiroAtivo);
+                    TelaHistoricoReservadas();
                     break;
             }
         }
@@ -3280,7 +3284,7 @@ namespace PAeroportoOnTheFly
             switch (opc)
             {
                 case 0:
-                    TelaVendas(passageiroAtivo);
+                    TelaVendas();
                     break;
                 case 1:
                     Console.Clear();
@@ -3386,7 +3390,7 @@ namespace PAeroportoOnTheFly
 
                                         Console.WriteLine("Compra realizada com sucesso!");
                                         Pausa();
-                                        TelaVendas(passageiroAtivo);
+                                        TelaVendas();
                                         break;
                                     }
                                 }
@@ -3403,7 +3407,7 @@ namespace PAeroportoOnTheFly
                             retornar = PausaMensagem();
                         }
                     } while (retornar == true);
-                    TelaHistoricoVendas(passageiroAtivo);
+                    TelaHistoricoVendas();
                     break;
                 case 2:
 
@@ -3441,7 +3445,7 @@ namespace PAeroportoOnTheFly
                                 Console.Clear();
                                 Console.WriteLine("Reserva realizada com sucesso!");
                                 Pausa();
-                                TelaVendas(passageiroAtivo);
+                                TelaVendas();
                             }
                             else
                             {
@@ -3455,11 +3459,11 @@ namespace PAeroportoOnTheFly
                             retornar = PausaMensagem();
                         }
                     } while (retornar == true);
-                    TelaHistoricoReservadas(passageiroAtivo);
+                    TelaHistoricoReservadas();
                     break;
             }
         }
-        static void TelaHistoricoVendas(Passageiro passageiroAtivo)
+        static void TelaHistoricoVendas()
         {
             int opc;
             foreach (var venda in listVenda)
@@ -3475,31 +3479,30 @@ namespace PAeroportoOnTheFly
             switch (opc)
             {
                 case 0:
-                    TelaVendas(passageiroAtivo);
+                    TelaVendas();
                     break;
                 case 1:
-                    TelaDescricaoItemVenda(passageiroAtivo);
+                    TelaDescricaoItemVenda();
                     break;
             }
         }
-        static void TelaDescricaoItemVenda(Passageiro passageiroAtivo)
+        static void TelaDescricaoItemVenda()
         {
 
             string idvenda = ValidarEntrada("idvenda");
-            if (idvenda == null) TelaVendas(passageiroAtivo);
+            if (idvenda == null) TelaVendas();
             foreach (var itemVenda in listItemVenda)
             {
                 if (itemVenda.IDItemVenda == idvenda)
                 {
                     Console.WriteLine(itemVenda.ToString());
-                    Pausa();
-                    TelaVendas(passageiroAtivo);
-                    break;
                 }
             }
+            Pausa();
+            TelaVendas();
 
         }
-        static void TelaHistoricoReservadas(Passageiro passageiroAtivo)
+        static void TelaHistoricoReservadas()
         {
             foreach (var passagem in listPassagem)
             {
@@ -3512,7 +3515,7 @@ namespace PAeroportoOnTheFly
             Console.WriteLine("\n---------------------------------------------------------------------------------------------");
 
             Pausa();
-            TelaVendas(passageiroAtivo);
+            TelaVendas();
         }
 
         static void Main(string[] args)
