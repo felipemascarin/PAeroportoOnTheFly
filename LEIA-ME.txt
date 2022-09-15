@@ -196,7 +196,7 @@ até 99999 Retorna obrigatóriamente 5 caracteres.
 
 ValidarEntrada(String entrada);
 
-- recebe uma string como parâmetros (listados logo abaixo)
+- recebe uma string como parâmetros (listados a seguir)
 - realiza um tratamento do valor de entrada escolhido
 - retorna um valor como string que pode ser convertido posteriormente
 - Ou retorna nullo se o usuário cancelar a entrada dos dados
