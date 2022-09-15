@@ -1,6 +1,11 @@
 Sistema de Gerenciamento Aeroporto OnTheFly
 
 
+Baixar o arquivo Destino.dat e colar na pasta que o programa criará (c:\DBOnTheFly) -Não é possível cadastrar voos sem esse arquivo.
+
+
+
+Classes:
 
 
 Classe Passageiro:
