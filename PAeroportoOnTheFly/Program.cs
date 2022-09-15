@@ -508,7 +508,7 @@ namespace PAeroportoOnTheFly
                     valor = null;
 
                     caracteres = linha.ToCharArray();
-                    for (int i = 0; i < 4; i++)
+                    for (int i = 0; i <= 4; i++)
                     {
                         IDVenda = IDVenda + caracteres[i].ToString();
                     }
@@ -547,7 +547,7 @@ namespace PAeroportoOnTheFly
                     valor = null;
 
                     caracteres = linha.ToCharArray();
-                    for (int i = 0; i < 4; i++)
+                    for (int i = 0; i <= 4; i++)
                     {
                         IDItemVenda = IDItemVenda + caracteres[i].ToString();
                     }
